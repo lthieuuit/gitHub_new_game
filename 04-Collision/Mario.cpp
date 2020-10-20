@@ -103,7 +103,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CMario::SitDown() {
 	isSit = true;
-	height = MARIO_HEGHT_IS_SIT;
+	height = MARIO_HEGHT - MARIO_HEGHT_RESET_SIT;
 }
 
 void CMario::ResetSitDown() {

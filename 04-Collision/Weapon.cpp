@@ -152,19 +152,26 @@ void CWeapon::GetPositionForSimon() {
 		if (currenFrame != frame) {
 			if (currenFrame == 0) {
 				SetFrame(frame - 1);
-				x += 7;
+				x += 20;
 				y += 2;
 				frame = 0;
 			}
 			else if (currenFrame == 1) {
-				x += 7;
+				x -= 10;
 				y -= 1;
 				frame = 1;
 			}
 			else if (currenFrame == 2) {
-				x -= 32;
-				y += 2;
-				frame = 2;
+				if (level == 3) {
+					x -= 45;
+					y += 2;
+					frame = 2;
+				}
+				else {
+					x -= 32;
+					y += 2;
+					frame = 2;
+				}
 			}
 		}
 	}
