@@ -1,0 +1,316 @@
+# id	file_path	transparent_color_r	g	b
+[TEXTURES]
+0	textures\Simon.png	255	0	255
+1	textures\Ground.png	255	0	255
+2	textures\WHIP.png	255	0	255
+3	textures\Candle.png	255	0	255
+4	textures\Items.png	255	0	255
+5	textures\SubWeapons.png	255	0	255
+6	textures\Effect.png	255	0	255
+7	textures\Spark.png	255	0	255
+8	textures\BlackBoard.png	0	0	0
+9	textures\HP.png	0	0	0
+10	textures\Texts.png	255	0	255
+20	textures\Piece.png	255	0	255
+
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+# Simon
+# idle
+1	0	0	60	64	0
+# walk
+2	60	0	120	64	0		
+3	120	0	180	64	0
+4	180	0	240	64	0
+#jump
+5	240	0	300	64	0
+#sit
+6	302	198	360	262	0
+#stand hit
+7	300	0	360	64	0
+8	360	0	420	64	0
+9	420	0	479	64	0
+#sit hit
+10	420	66	480	130	0
+11	0	132	60	196	0
+12	60	132	120	196	0
+#led
+13	120	198	180	262	0
+14	60	198	120	262	0
+15	0	198	60	262	0
+#stair up
+16	240	66	300	130	0
+17	300	66	360	130	0
+#stair down
+18	120	66	180	130	0
+19	180	66	240	130	0
+#stair up hit
+20	300	132	360	196	0
+21	360	132	420	196	0
+22	420	132	480	196	0
+#stair down hit
+23	120	132	180	196	0
+24	180	132	240	196	0
+25	240	132	300	196	0
+#hurt
+26	0	66	60	130	0
+#die
+27	240	198	300	264	0
+#Whip
+#whiplv1
+50	0	0	240	66	2
+51	240	0	480	66	2
+52	480	0	720	66	2
+#whiplv2
+53	0	66	240	132	2
+54	240	66	480	132	2
+55	480	66	720	132	2
+#whiplv3
+56	0	132	240	198	2
+57	240	198	480	264	2
+58	480	264	720	330	2
+#GROUND
+70	0	0	32	32	1
+71	32	0	64	32	1
+#Candle 
+75	0	0	32	64	3
+76	32	0	64	64	3
+#Item for whip
+80	130	0	162	32	4
+#Item big heart
+81	16 	0	40	20	4	
+#Item knife,watch,axe,boom,water
+82	162	0	194	18	4
+83	194	0	224	32	4
+84	256	0	286	28	4
+85	0	32	30	60	4
+86	30	32	62	64	4
+#Itemdoubletriple
+200	94	32	122	60	4
+201	164	32	192	60	4
+202	122	32	158	74	4
+203	192	32	228	74	4
+#Item waterbottle
+87	286	0	312	32	4
+#Item corss
+88	224	0	256	32	4
+#Item meat
+89	62	32	94	58	4
+#Item smallheart
+90	0	0	16	16	4
+#Item bluemoney
+91	100	0	130	30	4
+#Item redmoney
+92	40	0	70	30	4
+#Item whitemoney
+93	70	0	100	30	4
+#Item crown
+94	286	32	316	64	4
+95	316	32	346	64	4
+#Item boss
+96	234	32	260	64	4
+97	260	32	286	64	4
+#Subweapon knife
+100	204	0	238	18	5
+#Subweapon axe
+101	84	0	114	28	5
+102	114	0	144	28	5
+103	144	0	174	28	5
+104	174	0	204	28	5
+#Subweapon boom
+105	0	0	28	28	5
+106	28	0	56	28	5
+107	56	0	84	28	5
+#holywater
+204	268	0	300	28	5
+#holywaterfire
+205	300	0	332	28	5
+206	332	0	364	28	5
+#Effect  fire
+110	0	0	32	60	6
+111	32	0	64	60	6
+112	64	0	96	60	6
+#Effect Hit
+113	0	0	16	20	7
+#Effect Piece
+114	32	0	64	32	20
+#Board
+125	0	0	520	80	8
+#SimonBossHealth
+126	0	0	8	15	9
+127	8	0	16	15	9
+128	16	0	24	14	9
+#TEXTNUM
+#0
+129	0	28	15	42	10
+#1
+130	15	28	30	42	10
+#2
+131	30	28	45	42	10
+#3
+132	45	28	60	42	10
+#4
+133	60	28	75	42	10
+#5
+134	75	28	90	42	10
+#6
+135	90	28	105	42	10
+#7
+136	105	28	120	42	10
+#8
+137	120	28	135	42	10
+#9
+138	135	28	150	42	10
+
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+
+# ==== SIMON=========
+#idle
+0	1	100
+#run
+1	1	100	2	100	3	100	4	100
+#jump
+2	5	100
+#sit
+3	6	100
+#stand hit
+4	7	100	8	100	9	100
+#sit hit
+5	10	100	11	100	12	100
+#led
+6	13	100	14	100	15	100
+#stairup
+7	16	100	17	100
+#stairdown
+8	18	100	19	100
+#stairuphit
+9	20	100	21	100	22	100
+#stairdownhit
+10	23	100	24	100	25	100
+#hurt
+11	26	100
+#die
+12	27	100
+# ==== WHIP=========
+#lv1
+40	50	100	51	100	52	100
+#lv2
+41	53	100	54	100	55	100
+#lv3
+42	56	100	57	100	58	100
+# ==== GROUND=========
+50	70	100
+51	71	100
+# ==== Candle =========
+55	75	100	76	100
+# ==== Items  =========
+# Chain	
+60	80	100
+#Big Heart
+61	81	100
+#Knife
+62	82	100
+63	83	100
+64	84	100
+65	85	100
+66	86	100
+#WaterBottle
+67	87	100
+#Cross
+68	88	100
+#doubletriple
+200	200	100
+201	201	100
+202	202	100
+203	203	100
+#Meat
+69	89	100
+#SmallHeart
+70	90	100
+#bluemoney
+71	91	100
+#redmoney
+72	92	100
+#whitemoney
+73	93	100
+#crown
+74	94	100	95	100
+#item boss
+75	96	100	97	100
+#
+#====SubWeapon=======
+#Knife
+80	100	100
+#Axe
+81	101	60	102	60	103	60	104	60
+#Boomerang
+82	105	60	106	60	107	60
+#HolyWater
+83	204	100
+84	205	100	206	100
+#====EffectFire=========
+90	110	100	111	100	112	100
+#====EffectHit========
+91	113	100
+#====Board==========
+92	125	100
+#=====Simonheal=====
+93	126	100
+#=====loseheal=====
+94	127	100
+#=====bossheal=====
+95	128	100
+#=====effectpiece====
+300	114	100
+
+
+
+
+
+
+
+#
+# id	ani1	ani2	ani3
+#
+[ANIMATION_SETS]
+# Simon
+1	0	1	2	3	4	5	6	7	8	9	10	11	12
+# GROUNDmap1
+2	50
+#GOURNDmap2	
+23	51
+#Candle
+3	55	90
+#Whip
+4	40	41	42
+#Items
+5	60	61	62	63	64	65	66	67	68	200	201	69	70	71	72	73	74	75
+#SubWeapon
+#knife
+6	80
+#axe
+20	81
+#boomerang 
+21	82
+#holywater
+22	83	84
+#EffectHit
+7	91
+#Board
+8	92
+#Health
+9	93	94	95
+#EffectPiece
+300	300
+
+[SETTINGS]
+start	1
+[LINKMAP]
+Scenes\Map1full.txt
+Scenes\Map2full.txt
+Scenes\Map3full.txt
+Scenes\Map4full.txt
+Scenes\Map5full.txt
+Scenes\Map6full.txt

@@ -1,3 +1,0 @@
-idle_right	163	39	180	71
-idle_walk_right_1	205	39	218	71
-idle_walk_right_2	244	39	259	71

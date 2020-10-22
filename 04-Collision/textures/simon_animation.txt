@@ -1,2 +1,0 @@
-ani_idle_right	idle_right	100
-ani_walk_right	walk_right_1	100	walk_right_2	100	idle_right	100
