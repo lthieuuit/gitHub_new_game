@@ -1,0 +1,70 @@
+#####
+[CLEARTEXT]
+11	14	13
+#
+[CLEARSP]
+139	140	145	146	147	148	77	78	142	143	144
+#
+[CLEARANI]
+96	97	100	101	56	99
+#
+[CLEARANISET]
+10	26	11	25	500
+##
+
+# id	file_path	transparent_color_r	g	b
+[TEXTURES]
+11	textures\Stair.png	1	1	1
+13	textures\Knight.png	116	116	116
+14	textures\VampireBat.png	255	0	255
+#
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+#STAIR
+139	0	0	32	32	11
+140	32	0	64	32	11
+#KNIGHT
+142	0	0	32	64	13
+143	32	0	64	64	13
+144	64	0	96	64	13
+#BAT
+145	0	0	32	32	14
+146	32	0	64	32	14
+147	64	0	96	32	14
+148	96	0	128	32	14
+#CANDLE
+77	64	0	80	32	3
+78	80	0	96	32	3
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+#====STAIR======
+96	139	100
+97	140	100
+#====KNIGHT=====
+99	142	150	143	150	144	150	143	150
+#====BAT=======
+100	145	100
+101	146	100	147	100	148	100
+=====CANDLE====
+56	77	100	78	100
+#
+# id	ani1	ani2	ani3
+#
+[ANIMATION_SETS]
+#STAIR
+10	96
+11	97
+#KNIGHT
+25	99	90
+#BAT
+26	100	101	90
+#CANDLE
+500	56	90
+
+
+[SCENEOBJECT]
+Scenes\scene2.txt
+[TILEMAP]
+4000	TileMap\Scene2.png	TileMap\Scene2_map.txt	12	17	4	7	32	32	2	0	0	530	500	0	0	0
+
+	
