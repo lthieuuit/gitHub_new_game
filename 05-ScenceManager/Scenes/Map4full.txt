@@ -1,0 +1,83 @@
+#####
+[CLEARTEXT]
+11	12	13	14	15
+#
+[CLEARSP]
+139	141	145	146	147	148	149	150	151	152	153	77	78
+#
+[CLEARANI]
+96	98	100	101	102	103	56
+#
+[CLEARANISET]
+10	24	25	26	27	28	500
+##
+
+# id	file_path	transparent_color_r	g	b
+[TEXTURES]
+11	textures\Stair.png	1	1	1
+12	textures\Monkey.png	116	116	116
+13	textures\Skeleton.png	116	116	116
+14	textures\Bone.png	116	116	116
+15	textures\Frog.png	116	116	116
+#
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+#STAIR
+139	64	0	96	32	11
+#MONKEY
+145	0	0	32	32	12
+146	32	0	64	32	12
+#SKELETON
+147	0	0	32	64	13
+148	32	0	64	64	13
+#Bone
+149	0	0	32	32	14
+150	32	0	64	32	14
+151	64	0	96	32	14
+#FROG
+152	0	0	32	32	15
+153	32	0	64	32	15
+#GROUND
+141	64	0	96	32	1
+#CANDLE
+77	64	0	80	32	3
+78	80	0	96	32	3
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+#====STAIR======
+96	139	100
+#====GROUND=====
+98	141	100
+#====MONKEY=====
+100	145	100	146	100
+#===SKELETON====
+101	147	100	148	100
+#===BONE=========
+102	149	100	150	100	151	100
+#===FROG========
+103	152	100	153	100
+=====CANDLE====
+56	77	100	78	100
+#
+# id	ani1	ani2	ani3
+#
+[ANIMATION_SETS]
+#STAIR
+10	96
+#GROUND
+24	98
+#MONKEY
+25	100	90
+#SKELETON
+26	101	90
+#BONE
+27	102
+#FROG
+28	103	90
+#CANDLE
+500	56	90
+
+[SCENEOBJECT]
+Scenes\scene4.txt
+[TILEMAP]
+8000	TileMap\Scene3.png	TileMap\Scene4_map.txt	12	50	5	12	32	32	3	1020	0	1590	500	0	0	0
