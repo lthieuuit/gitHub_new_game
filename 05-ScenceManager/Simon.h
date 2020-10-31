@@ -54,20 +54,24 @@
 #define	SIMON_LEVEL_BIG				2
 
 #define SIMON_UNTOUCHABLE_TIME		5000
+#define SIMON_RESET_JUMP_TIME		500
 
 
 class CSimon : public CGameObject
 {
+public:
 	int level;
 	int untouchable;
 	int height = 68;
 	int width = 60;
 	bool isSit;
 	bool isAttack;
+	bool isGrounded;
 	int actionAttack = 0;	// 0 right 1 left
 
 	int start_x;
 	int start_y;
+
 
 	DWORD untouchable_start;
 	DWORD action_time;

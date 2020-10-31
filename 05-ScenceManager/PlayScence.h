@@ -3,25 +3,29 @@
 #include "Textures.h"
 #include "Scence.h"
 #include "GameObject.h"
+#include "Koopas.h"
+#include "Map.h"
+
 #include "Brick.h"
 #include "Simon.h"
 #include "Goomba.h"
-#include "Koopas.h"
 
+#include "Weapon.h"
 
 class CPlayScene: public CScene
 {
 public: 
 	CSimon *player;					// A play scene has to have player, right? 
-
+	CMap* map;
+	CWeapon* weapon;
 	vector<LPGAMEOBJECT> objects;
-
+	int isintro = 0;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
-
+	void _ParseSection_LOADMAP(string line);
 	
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
@@ -30,6 +34,8 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+
+	bool CheckInCam(LPGAMEOBJECT a);
 
 	//friend class CPlayScenceKeyHandler;
 };
@@ -40,6 +46,12 @@ public:
 	virtual void KeyState(BYTE *states);
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode) {};
+
+	void Run(int _nx);
+	void Jump();
+	void Hit();
+
+
 	CPlayScenceKeyHandler(CScene *s) :CScenceKeyHandler(s) {};
 };
 

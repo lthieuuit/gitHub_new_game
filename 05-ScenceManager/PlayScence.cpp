@@ -6,9 +6,13 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "Portal.h"
-
+#include "Map.h"
+#include "Board.h"
 using namespace std;
 
+
+#define SCREEN_WIDTH 512
+#define SCREEN_HEIGHT 448
 /*
 	Load scene resources from scene file (textures, sprites, animations and objects)
 	See scene1.txt, scene2.txt for detail format specification
@@ -20,12 +24,15 @@ using namespace std;
 #define SCENE_SECTION_ANIMATIONS 4
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
+#define SCENE_SECTION_LOADMAP	7
 
 #define OBJECT_TYPE_SIMON	0
 #define OBJECT_TYPE_BRICK	1
 #define OBJECT_TYPE_GOOMBA	2
 #define OBJECT_TYPE_KOOPAS	3
-
+#define OBJECT_TYPE_MAP	4
+#define OBJECT_TYPE_WEAPON	5
+#define OBJECT_TYPE_BOARD	8
 #define OBJECT_TYPE_PORTAL	50
 
 #define MAX_SCENE_LINE 1024
@@ -35,6 +42,87 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :CScene(id, filePath)
 	key_handler = new CPlayScenceKeyHandler(this);
 }
 
+void CPlayScene::_ParseSection_LOADMAP(string line)
+{
+	vector<string> tokens = split(line);
+
+	//test set id
+	int r, l, id = 400;
+
+	if (tokens.size() < 4) return; // skip invalid lines
+	if (atoi(tokens[0].c_str()) == 0)
+	{
+		//load intro map sate = 0
+		isintro = 1;
+		int texID = atoi(tokens[3].c_str());
+		LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
+		if (tex == NULL)
+		{
+			DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
+			return;
+		}
+		CSprites::GetInstance()->Add(400, 0, 0, 448, 512, tex);
+		LPANIMATION ani = new CAnimation(100);	// idle big right
+		//add ani;
+		ani->Add(id);
+		CAnimations::GetInstance()->Add( id, ani);
+		///set ani to obj
+		LPANIMATION_SET s = new CAnimationSet();
+		CAnimations * animations = CAnimations::GetInstance();
+		s->push_back(animations->Get(0));
+		CAnimationSets::GetInstance()->Add(400, s);
+		map->SetState(0);
+	}
+	else
+	{
+		int IDMap = atoi(tokens[0].c_str());
+		wstring path = ToWSTR(tokens[1]);
+		int frame = atoi(tokens[2].c_str());
+		int texID = atoi(tokens[3].c_str());
+		//int B = atoi(tokens[4].c_str());
+		LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
+		if (tex == NULL)
+		{
+			DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
+			return;
+		}
+		//int frame = 49;//114;
+		for (int i = 0; i < frame; i++)
+		{
+			if (i == 0)
+			{
+				r = 32;
+				l = 0;
+			}
+			else
+			{
+
+				l = i * 32;
+				r = l + 32;
+			}
+			//auto add id sprite
+			CSprites::GetInstance()->Add(i + id, l, 0, r, 32, tex);
+			LPANIMATION ani = new CAnimation(100);	// idle big right
+			//add ani;
+			ani->Add(i + id);
+			CAnimations::GetInstance()->Add(i + id, ani);
+		}
+		map = new CMap();
+		map->ReadMap(IDMap, path.c_str());
+		map->SetState(IDMap);
+		isintro = 0;
+		LPANIMATION_SET s = new CAnimationSet();
+
+		CAnimations* animations = CAnimations::GetInstance();
+
+		for (int i = 0; i < map->col + 1; i++)
+		{
+			LPANIMATION ani = animations->Get(400 + i);
+			s->push_back(ani);
+			CAnimationSets::GetInstance()->Add(i + 4000, s);
+		}
+	}
+}
 
 void CPlayScene::_ParseSection_TEXTURES(string line)
 {
@@ -149,12 +237,22 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		}
 		obj = new CSimon(x,y); 
 		player = (CSimon*)obj;
-
+		if (isintro == 1) 
+		{ 
+			player->SetNX(0); 
+			player->SetState(SIMON_STATE_WALKING);
+		}
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
+	case OBJECT_TYPE_WEAPON: 
+		obj = new CWeapon(); 
+		this->weapon = (CWeapon*)obj;
+		break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
+	case OBJECT_TYPE_BOARD: obj = new CBoard(); break;
+	case OBJECT_TYPE_MAP: { obj = map; }break;
 	case OBJECT_TYPE_PORTAL:
 		{	
 			float r = atof(tokens[4].c_str());
@@ -191,9 +289,9 @@ void CPlayScene::Load()
 	while (f.getline(str, MAX_SCENE_LINE))
 	{
 		string line(str);
-
-		if (line[0] == '#') continue;	// skip comment lines	
-
+		//if(line[])
+		if (line[0] == '#') continue;// skip comment lines	
+		if (line == "[LOADMAP]") { section = SCENE_SECTION_LOADMAP; continue; }
 		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
 		if (line == "[SPRITES]") { 
 			section = SCENE_SECTION_SPRITES; continue; }
@@ -210,6 +308,7 @@ void CPlayScene::Load()
 		//
 		switch (section)
 		{ 
+			case SCENE_SECTION_LOADMAP: _ParseSection_LOADMAP(line); break;
 			case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
 			case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 			case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
@@ -229,7 +328,6 @@ void CPlayScene::Update(DWORD dt)
 {
 	// We know that simon is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
-
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1; i < objects.size(); i++)
 	{
@@ -240,18 +338,39 @@ void CPlayScene::Update(DWORD dt)
 	{
 		objects[i]->Update(dt, &coObjects);
 	}
-
 	// skip the rest if scene was already unloaded (simon::Update might trigger PlayScene::Unload)
-	if (player == NULL) return; 
+	//if (player == NULL) return; 
+	//if (isintro == 1)
+	//{
+	//	//player->SetState(SIMON_STATE_WALKING);
+	//	player->SetSpeed(-1, 0);
+	//}
+	//// Update camera to follow simon
+	//float cx, cy;
+	//player->GetPosition(cx, cy);
 
-	// Update camera to follow simon
+	//CGame *game = CGame::GetInstance();
+	//cx = game->GetScreenWidth() - player->x;
+	//cy -= game->GetScreenHeight() / 2;
+
+	//CGame::GetInstance()->SetCamPos(0.0f, 0.0f /*cy*/);
+
+
+	///////
+	if (player == NULL) return;
+
+	// Update camera to follow mario
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
-	CGame *game = CGame::GetInstance();
+	CGame* game = CGame::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
 
+	// fix bug camera 
+	if (cx < 0) {
+		cx = 0.0f;
+	}
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 }
 
@@ -275,20 +394,11 @@ void CPlayScene::Unload()
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
-void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
+bool CPlayScene::CheckInCam(LPGAMEOBJECT a)
 {
-	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	CGame* game = CGame::GetInstance();
+	return (a->GetPositionX() >= game->GetCamPosX()) && (a->GetPositionX() < (game->GetCamPosX() + SCREEN_WIDTH)) && (a->GetPositionY() >= game->GetCamPosY()) && (a->GetPositionY() < game->GetCamPosY() + SCREEN_HEIGHT);
 
-	CSimon *simon = ((CPlayScene*)scence)->player;
-	switch (KeyCode)
-	{
-	case DIK_SPACE:
-		simon->SetState(SIMON_STATE_JUMP);
-		break;
-	case DIK_A: 
-		simon->Reset();
-		break;
-	}
 }
 
 void CPlayScenceKeyHandler::KeyState(BYTE *states)
@@ -296,19 +406,56 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	CGame *game = CGame::GetInstance();
 	CSimon *simon = ((CPlayScene*)scence)->player;
 
-	// disable control key when simon die 
-	if (game->IsKeyDown(DIK_RIGHT)) {
-		simon->SetNX(1);
-		simon->SetState(SIMON_STATE_WALKING);
-	}
-		
-	else if (game->IsKeyDown(DIK_LEFT)) {
-		simon->SetNX(-1);
-		simon->SetState(SIMON_STATE_WALKING);
-
-	}
-	else {
-		simon->SetState(SIMON_STATE_IDLE);
-	}
 	if (simon->GetState() == SIMON_STATE_DIE) return;
+	// disable control key when simon die 
+	if (game->IsKeyDown(DIK_RIGHT)) Run(1);
+	else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
+	else simon->SetState(SIMON_STATE_IDLE);
+
+	
+}
+
+void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
+{
+	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+
+	CGame* game = CGame::GetInstance();
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	CPlayScene* playscene = ((CPlayScene*)scence);
+	switch (KeyCode)
+	{
+	case DIK_SPACE: 
+		Jump();
+		break;
+	case DIK_X:
+		Hit();
+		break;
+	case DIK_A:
+		simon->Reset();
+		break;
+	}
+}
+
+
+void CPlayScenceKeyHandler::Run(int _nx) {
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	simon->SetNX(_nx);
+	simon->SetState(SIMON_STATE_WALKING);
+}
+
+void CPlayScenceKeyHandler::Jump() {
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	DebugOut(L"isGrounded %d \n", simon->isGrounded);
+	if (simon->isGrounded) {
+		simon->SetState(SIMON_STATE_JUMP);
+	}
+}
+
+void CPlayScenceKeyHandler::Hit() {
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
+	simon->SetState(SIMON_STATE_HIT);
+	weapon->UpdatePosionWithSimon(simon->GetPositionX(), simon->GetPositionY(), simon->nx);
+	weapon->SetState(WEAPON_STATE_ATTACK);
+	
 }
