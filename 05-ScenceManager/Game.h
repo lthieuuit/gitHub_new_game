@@ -52,7 +52,6 @@ public:
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
 	void Draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255);
-
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
 
@@ -62,6 +61,9 @@ public:
 
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }
+
+	float GetCamPosX() { return cam_x; }
+	float GetCamPosY() { return cam_y; }
 
 	static void SweptAABB(
 		float ml,			// move left 

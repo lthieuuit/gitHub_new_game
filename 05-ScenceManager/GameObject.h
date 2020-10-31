@@ -58,6 +58,8 @@ public:
 
 	int state;
 
+	bool isHidden;
+
 	DWORD dt; 
 
 	LPANIMATION_SET animation_set;
@@ -93,6 +95,8 @@ public:
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
 
+	float GetPositionX() { return this->x; }
+	float GetPositionY() { return this->y; }
 
 	~CGameObject();
 };

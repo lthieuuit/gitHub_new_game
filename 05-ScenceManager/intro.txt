@@ -1,0 +1,76 @@
+# id	file_path	transparent_color_r	g	b
+[TEXTURES]
+0	textures\Simon.png	255	0	255
+1	textures\Ground.png	255	0	255
+2	textures\intro.png	255	255	255
+
+[LOADMAP]
+0	null	2	-1
+	
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+# Simon
+# idle
+1	0	0	60	64	0
+
+# walk
+2	60	0	120	64	0		
+3	120	0	180	64	0
+4	180	0	240	64	0
+#behind 
+5	60	64	120	128	0
+#GROUND
+70	0	0	32	32	1
+#INTRO
+80	0	0	448	512	2
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+
+# ==== SIMON=========
+#idle
+0	1	100
+#run
+1	1	100	2	100	3	100	4	100
+2	5	100
+#GROUD
+50	70	100
+#INTRO
+51	80	100
+
+#
+# id	ani1	ani2	ani3
+#
+[ANIMATION_SETS]
+# Simon
+1	0	1	2
+# GROUND
+2	50
+# INTRO
+3	51
+
+[OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba
+0	451	313	1
+# BRICK 
+1	0	378	2
+1	32	378	2
+1	64	378	2
+1	96	378	2
+1	128	378	2
+1	160	378	2
+1	192	378	2
+1	224	378	2
+1	256	378	2
+1	288	378	2
+1	320	378	2
+1	352	378	2
+1	384	378	2
+1	416	378	2
+1	448	378	2
+1	480	378	2
+1	512	378	2
+
+# --- SCENE PORTAL ----
+# type	l	t	ani_set_id	r	b	scene_id
+50	0	0	0	316	448	2
