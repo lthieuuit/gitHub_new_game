@@ -10,6 +10,8 @@
 #include "Board.h"
 #include "Torch.h"
 #include "Candle.h"
+#include"BlackLeopard.h"
+#include"Zombie.h"
 using namespace std;
 
 
@@ -39,6 +41,8 @@ using namespace std;
 #define OBJECT_TYPE_AXE 9
 #define OBJECT_TYPE_TORCH 6
 #define OBJECT_TYPE_CANDLE 7
+#define OBJECT_TYPE_BLACK_LEOPARD 11
+#define OBJECT_TYPE_ZOMBIE 10
 
 #define MAX_SCENE_LINE 1024
 
@@ -253,6 +257,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_TORCH: obj = new CTorch(); break;
 	case OBJECT_TYPE_CANDLE: obj = new CCandle(); break;
+	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
+	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_WEAPON: 
 		obj = new CWeapon(); 
 		this->weapon = (CWeapon*)obj;

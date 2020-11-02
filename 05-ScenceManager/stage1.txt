@@ -12,6 +12,9 @@
 9	textures\HP.png	0	0	0
 10	textures\Texts.png	255	0	255
 20	textures\Piece.png	255	0	255
+21	textures\BlackLeopard.png	255	0	255
+22	textures\Zombie.png	255	0	255
+
 30	TileMap\stage1.png	255	255	255
 
 # idmap path frame texture_id
@@ -20,6 +23,20 @@
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+#Zombie
+#walking
+310	0	0	32	64	22
+311	32	0	64	64	22
+#BlackLeopard
+#idle
+300	0	0	64	32	21
+#run
+301	64	0	128	32	21
+302	128	0	192	32	21
+303	192	0	256	32	21
+304	128	0	192	32	21
+#jump
+305	192	0	256	32	21
 # Simon
 # idle
 1	0	0	60	64	0
@@ -172,6 +189,17 @@
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
+# ====ZOMBIE==================
+#walking
+260	310	100	311	100
+
+# ==== BLACK_LEOPARD==========
+#idle
+250	300	100
+#run
+251	301	100	302	100	303	100	304	100
+#jumo
+252	305	100
 
 # ==== SIMON=========
 #idle
@@ -284,6 +312,10 @@
 # id	ani1	ani2	ani3
 #
 [ANIMATION_SETS]
+#ZOMBIE
+410	260	
+#BLACK_LEOPARD
+400	250	251	252
 # Simon
 1	0	1	2	3	4	5	6	7	8	9	10	11	12
 # GROUNDmap1
@@ -336,7 +368,12 @@
 #whip
 5	-100	-100	4
 #Axe
-9	0	0	20	
+9	0	0	20
+#BLACK_LEOPARD
+11	70	0	400
+
+#ZOMBIE
+10	20	110	410	
 
 # BRICK 
 # --- platform (hint: I created the list using Excel!) ----
