@@ -13,17 +13,25 @@
 #define WEAPON_ANI_2	1
 #define WEAPON_ANI_3	2
 
+#define WEAPON_WIDHT_ANI_1	44;
+#define WEAPON_HEGTH_ANI_1	23;
+
+
 class CWeapon : public CGameObject
 {
 	static CWeapon* __instance;
 	int level;
 	int frame;
+	int width = 0;
+	int heigth = 0;
 	DWORD action_time;
 
 
 public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
+	virtual bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);
 	virtual void Render();
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void SetState(int state);
 
 	void ResetAnimation();
@@ -32,11 +40,11 @@ public:
 	void UpdatePosionWithSimon(float _x, float _y, int _nx);
 	static CWeapon* GetInstance();
 	CWeapon();
+	~CWeapon();
 
 	void SetLevel(int _level) { level = _level; };
 	int GetLevel() { return level; };
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	
 	int GetAnimation();
 	void GetPositionForSimon();
-
 };

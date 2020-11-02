@@ -13,17 +13,50 @@ CWeapon::CWeapon() {
 	level = 1;
 }
 
+CWeapon::~CWeapon()
+{
+}
+
 void CWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
+	CGameObject::Update(dt);
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	if (!isHidden) {
 		if (GetTickCount() - action_time > WEAPON_ATTACK_TIME) {
 			isHidden = true;
 			this->action_time = 0;
-		}
 			
+		}
 	}
+
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT obj = coObjects->at(i);
+		if (dynamic_cast<CSimon*>(obj))
+		{
+			CSimon* e = dynamic_cast<CSimon*>(obj);
+
+			if (e->nx != 0) {
+				float l, t, r, b;
+				GetBoundingBox(l, t, r, b);
+				l = t = r = b = -1000;
+			}
+
+		}
+	}
+}
+
+bool CWeapon::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
+	float l, t, r, b;
+	CWeapon::GetBoundingBox(l, t, r, b);
+
+	if (CGameObject::AABBCheck(l, t, r, b, left_a, top_a, right_a, bottom_a))
+		return true;
+	else
+		return false;
 }
 
 void CWeapon::Render()
@@ -31,6 +64,7 @@ void CWeapon::Render()
 	if (isHidden) return;
 	int ani = GetAnimation();
 	animation_set->at(ani)->Render(nx,x, y, 255);
+	RenderBoundingBox();
 }
 void CWeapon::ResetAnimation()
 {
@@ -41,6 +75,11 @@ void CWeapon::ResetAnimation()
 
 void CWeapon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
+
+	left = x;
+	right = x + width;
+	top = y;
+	bottom = y + heigth;
 }
 
 void CWeapon::SetState(int state)
@@ -77,6 +116,8 @@ int CWeapon::GetAnimation() {
 		{
 		case 1: {
 			ani = WEAPON_ANI_1;
+			heigth = WEAPON_HEGTH_ANI_1;
+			width = WEAPON_WIDHT_ANI_1;
 			break;
 		}
 		case 2: {
@@ -95,11 +136,9 @@ int CWeapon::GetAnimation() {
 }
 
 void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
-	DebugOut(L"x update %f \n", _x);
-	DebugOut(L"y update %f \n", _y);
-	DebugOut(L"nx update %d \n", _nx);
-	//x = _x;
-	//y = _y;
+	//DebugOut(L"x update %f \n", _x);
+	//DebugOut(L"y update %f \n", _y);
+	//DebugOut(L"nx update %d \n", _nx);
 	nx = _nx; 
 	int ani = GetAnimation();
 	int currenFrame = animation_set->at(ani)->GetCurrentFrame();
@@ -118,7 +157,6 @@ void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
 				frame = 1;
 			}
 			else if(currenFrame == 2) {
-				DebugOut(L"a %d \n", currenFrame);
 				x = _x + 43.0f;
 				y = _y +  8.0f;
 				frame = 2;
@@ -139,7 +177,6 @@ void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
 				frame = 1;
 			}
 			else if (currenFrame == 2) {
-				DebugOut(L"b %d \n", currenFrame);
 				x = _x - 45;
 				y = _y + 10;
 				frame = 2;
@@ -150,6 +187,4 @@ void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
 	DebugOut(L"y %f \n", y);
 	DebugOut(L"nx %d \n", nx);
 }
-void CWeapon::GetPositionForSimon() {
-	
-}
+
