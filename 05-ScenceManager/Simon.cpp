@@ -4,6 +4,7 @@
 
 #include "Simon.h"
 #include "Game.h"
+#include "PlayScence.h"
 
 #include "Goomba.h"
 #include "Portal.h"
@@ -110,8 +111,34 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT obj = coObjects->at(i);
+		if (dynamic_cast<CWeapon*>(obj))
+		{
+			CWeapon* e = dynamic_cast<CWeapon*>(obj);
+			float left, top, right, bottom;
+			e->GetBoundingBox(left, top, right, bottom);
+			float newRight = right + 100;
+			if (this->CheckColli(left, top, newRight, bottom)) {
+				delete e;
+			}
+
+		}
+	}
+
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+}
+
+bool CSimon::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
+	float l, t, r, b;
+	CSimon::GetBoundingBox(l, t, r, b);
+
+	if (CGameObject::AABBCheck(l, t, r, b, left_a, top_a, right_a, bottom_a))
+		return true;
+	else
+		return false;
 }
 
 void CSimon::Render()

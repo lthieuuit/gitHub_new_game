@@ -12,6 +12,7 @@
 
 #include "Weapon.h"
 #include "Axe.h"
+#include "Board.h"
 
 class CPlayScene: public CScene
 {
@@ -20,6 +21,7 @@ public:
 	CMap* map;
 	CWeapon* weapon;
 	CAxe* axe;
+	CBoard* board;
 	vector<LPGAMEOBJECT> objects;
 	int isintro = 0;
 	void _ParseSection_TEXTURES(string line);

@@ -19,6 +19,7 @@
 
 class CWeapon : public CGameObject
 {
+public:
 	static CWeapon* __instance;
 	int level;
 	int frame;

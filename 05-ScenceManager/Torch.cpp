@@ -33,19 +33,6 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 
 		}
-		if (dynamic_cast<CSimon*>(obj))
-		{
-			CSimon* e = dynamic_cast<CSimon*>(obj);
-
-			float left, top, right, bottom;
-			e->GetBoundingBox(left, top, right, bottom);
-
-			if (CheckColli(left, top, right, bottom))
-			{
-				e->x = e->GetPositionX() + 1;
-			}
-
-		}
 	}
 }
 

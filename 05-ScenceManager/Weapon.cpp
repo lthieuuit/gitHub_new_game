@@ -15,11 +15,14 @@ CWeapon::CWeapon() {
 
 CWeapon::~CWeapon()
 {
+	this->SetState(WEAPON_STATE_HIDDEN);
+	x = -100;
+	y = -100;
+	isHidden = false;
 }
 
 void CWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt);
 	CGameObject::Update(dt);
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -29,22 +32,6 @@ void CWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			isHidden = true;
 			this->action_time = 0;
 			
-		}
-	}
-
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		LPGAMEOBJECT obj = coObjects->at(i);
-		if (dynamic_cast<CSimon*>(obj))
-		{
-			CSimon* e = dynamic_cast<CSimon*>(obj);
-
-			if (e->nx != 0) {
-				float l, t, r, b;
-				GetBoundingBox(l, t, r, b);
-				l = t = r = b = -1000;
-			}
-
 		}
 	}
 }

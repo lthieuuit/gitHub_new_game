@@ -81,6 +81,7 @@ public:
 	virtual void Reset();
 	CSimon(float x, float y);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
+	virtual bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);
 	virtual void Render();
 	void SetNX(int _nx) { nx = _nx; }
 	void SetState(int state);

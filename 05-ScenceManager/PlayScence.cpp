@@ -268,8 +268,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		this->axe = (CAxe*)obj;
 		break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
-	case OBJECT_TYPE_BOARD: obj = new CBoard(); break;
-	case OBJECT_TYPE_MAP: { obj = map; }break;
+	case OBJECT_TYPE_BOARD: 
+		obj = new CBoard();
+		board = (CBoard*)obj;
+		break;
+	case OBJECT_TYPE_MAP: 
+		obj = map; 
+		break;
 	case OBJECT_TYPE_PORTAL:
 		{	
 			float r = atof(tokens[4].c_str());
@@ -362,17 +367,19 @@ void CPlayScene::Update(DWORD dt)
 	//update position for simon
 	weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
 	// Update camera to follow mario
+	CGame* game = CGame::GetInstance();
 	float cx, cy;
 	player->GetPosition(cx, cy);
-
-	CGame* game = CGame::GetInstance();
+	
+	
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
-
+	
 	// fix bug camera 
 	if (cx < 0) {
 		cx = 0.0f;
 	}
+	board->SetPosition(cx - (game->GetScreenWidth() / 2), 0);
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 }
 
