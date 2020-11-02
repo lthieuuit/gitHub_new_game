@@ -24,9 +24,7 @@ void CWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			isHidden = true;
 			this->action_time = 0;
 		}
-		else {
-			GetPositionForSimon();
-		}
+			
 	}
 }
 
@@ -36,9 +34,11 @@ void CWeapon::Render()
 	int ani = GetAnimation();
 	animation_set->at(ani)->Render(nx,x, y, 255);
 }
-void CWeapon::ResetAnimation(int ani)
+void CWeapon::ResetAnimation()
 {
-	animation_set->at(ani)->ResetFrame();
+	for (int i = 0; i < animation_set->size(); i++) {
+		animation_set->at(i)->ResetFrame();
+	}
 }
 
 void CWeapon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -53,14 +53,12 @@ void CWeapon::SetState(int state)
 	{
 	case WEAPON_STATE_ATTACK:
 		ani = GetAnimation();
-		//ResetAnimation(ani);
+		animation_set->at(ani)->ResetFrame();
 		frame = 3;
 		this->action_time = GetTickCount();
 		isHidden = false;
 		break;
 	case WEAPON_STATE_HIDDEN:
-		ani = GetAnimation();
-		//ResetAnimation(ani);
 		isHidden = true;
 		break;
 	default:
@@ -98,37 +96,33 @@ int CWeapon::GetAnimation() {
 	return ani;
 }
 
-void CWeapon::UpdatePosionWithSimon(int _x, int _y, int _nx) {
-	this->x = _x;
-	this->y = _y;
-	this->nx = _nx;
-	DebugOut(L"x update %d \n", x);
-	DebugOut(L"y update %d \n", y);
-	DebugOut(L"nx update %d \n", nx);
-}
-void CWeapon::GetPositionForSimon() {
+void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
+	DebugOut(L"x update %f \n", _x);
+	DebugOut(L"y update %f \n", _y);
+	DebugOut(L"nx update %d \n", _nx);
+	//x = _x;
+	//y = _y;
+	nx = _nx; 
 	int ani = GetAnimation();
-	DebugOut(L"x %d \n", x);
-	DebugOut(L"y %d \n", y);
-	DebugOut(L"nx %d \n", nx);
 	int currenFrame = animation_set->at(ani)->GetCurrentFrame();
-	DebugOut(L"frame %d \n", currenFrame);
+	//DebugOut(L"frame %d \n", currenFrame);
 	if (nx > 0) {
 		if (currenFrame != frame) {
 			if (currenFrame == 0) {
 				SetFrame(frame - 1);
-				x -= 50;
-				y += 2;
+				x = _x - 10;
+				y = _y + 11.0f;
 				frame = 0;
 			}
 			else if (currenFrame == 1) {
-				x -= 7;
-				y -= 1;
+				x = _x - 10.0f;
+				y = _y + 2;
 				frame = 1;
 			}
-			else if (currenFrame == 2) {
-				x += 32;
-				y += 2;
+			else if(currenFrame == 2) {
+				DebugOut(L"a %d \n", currenFrame);
+				x = _x + 43.0f;
+				y = _y +  8.0f;
 				frame = 2;
 			}
 		}
@@ -137,28 +131,27 @@ void CWeapon::GetPositionForSimon() {
 		if (currenFrame != frame) {
 			if (currenFrame == 0) {
 				SetFrame(frame - 1);
-				x += 20;
-				y += 2;
+				x = _x + 55;
+				y = _y + 11;
 				frame = 0;
 			}
 			else if (currenFrame == 1) {
-				x -= 10;
-				y -= 1;
+				x = _x ;
+				y = _y + 2;
 				frame = 1;
 			}
 			else if (currenFrame == 2) {
-				if (level == 3) {
-					x -= 45;
-					y += 2;
-					frame = 2;
-				}
-				else {
-					x -= 32;
-					y += 2;
-					frame = 2;
-				}
+				DebugOut(L"b %d \n", currenFrame);
+				x = _x - 45;
+				y = _y + 10;
+				frame = 2;
 			}
 		}
 	}
-
+	DebugOut(L"x %f \n", x);
+	DebugOut(L"y %f \n", y);
+	DebugOut(L"nx %d \n", nx);
+}
+void CWeapon::GetPositionForSimon() {
+	
 }

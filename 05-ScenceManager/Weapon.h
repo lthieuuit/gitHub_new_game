@@ -26,10 +26,10 @@ public:
 	virtual void Render();
 	void SetState(int state);
 
-	void ResetAnimation(int ani);
+	void ResetAnimation();
 	void SetFrame(int _frame) { frame = _frame; };
 	int GetFrame() { return frame; };
-	void UpdatePosionWithSimon(int _x, int _y, int _nx);
+	void UpdatePosionWithSimon(float _x, float _y, int _nx);
 	static CWeapon* GetInstance();
 	CWeapon();
 

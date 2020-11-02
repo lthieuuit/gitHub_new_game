@@ -50,8 +50,7 @@ public:
 	void Run(int _nx);
 	void Jump();
 	void Hit();
-
-
+	void SitDown();
 	CPlayScenceKeyHandler(CScene *s) :CScenceKeyHandler(s) {};
 };
 

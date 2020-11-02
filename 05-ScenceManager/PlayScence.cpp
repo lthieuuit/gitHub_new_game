@@ -248,7 +248,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_WEAPON: 
 		obj = new CWeapon(); 
-		this->weapon = (CWeapon*)obj;
+		weapon = (CWeapon*)obj;
 		break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
 	case OBJECT_TYPE_BOARD: obj = new CBoard(); break;
@@ -338,27 +338,12 @@ void CPlayScene::Update(DWORD dt)
 	{
 		objects[i]->Update(dt, &coObjects);
 	}
-	// skip the rest if scene was already unloaded (simon::Update might trigger PlayScene::Unload)
-	//if (player == NULL) return; 
-	//if (isintro == 1)
-	//{
-	//	//player->SetState(SIMON_STATE_WALKING);
-	//	player->SetSpeed(-1, 0);
-	//}
-	//// Update camera to follow simon
-	//float cx, cy;
-	//player->GetPosition(cx, cy);
 
-	//CGame *game = CGame::GetInstance();
-	//cx = game->GetScreenWidth() - player->x;
-	//cy -= game->GetScreenHeight() / 2;
-
-	//CGame::GetInstance()->SetCamPos(0.0f, 0.0f /*cy*/);
-
-
-	///////
+	
 	if (player == NULL) return;
 
+	//update position for simon
+	weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
 	// Update camera to follow mario
 	float cx, cy;
 	player->GetPosition(cx, cy);
@@ -407,12 +392,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 	CSimon *simon = ((CPlayScene*)scence)->player;
 
 	if (simon->GetState() == SIMON_STATE_DIE) return;
-	// disable control key when simon die 
+	// disable control key when simon die
+	if (simon->isAttack) return;
 	if (game->IsKeyDown(DIK_RIGHT)) Run(1);
 	else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
 	else simon->SetState(SIMON_STATE_IDLE);
-
-	
 }
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
@@ -426,6 +410,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_SPACE: 
 		Jump();
+		break;
+	case DIK_DOWN:
+		SitDown();
 		break;
 	case DIK_X:
 		Hit();
@@ -451,11 +438,14 @@ void CPlayScenceKeyHandler::Jump() {
 	}
 }
 
+void CPlayScenceKeyHandler::SitDown() {
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	simon->SetState(SIMON_STATE_SIT_DOWN);
+}
+
 void CPlayScenceKeyHandler::Hit() {
 	CSimon* simon = ((CPlayScene*)scence)->player;
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
-	simon->SetState(SIMON_STATE_HIT);
-	weapon->UpdatePosionWithSimon(simon->GetPositionX(), simon->GetPositionY(), simon->nx);
 	weapon->SetState(WEAPON_STATE_ATTACK);
-	
+	simon->SetState(SIMON_STATE_HIT);
 }
