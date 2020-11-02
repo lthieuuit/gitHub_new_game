@@ -8,6 +8,8 @@
 #include "Portal.h"
 #include "Map.h"
 #include "Board.h"
+#include "Torch.h"
+#include "Candle.h"
 using namespace std;
 
 
@@ -34,6 +36,9 @@ using namespace std;
 #define OBJECT_TYPE_WEAPON	5
 #define OBJECT_TYPE_BOARD	8
 #define OBJECT_TYPE_PORTAL	50
+#define OBJECT_TYPE_AXE 9
+#define OBJECT_TYPE_TORCH 6
+#define OBJECT_TYPE_CANDLE 7
 
 #define MAX_SCENE_LINE 1024
 
@@ -246,9 +251,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
+	case OBJECT_TYPE_TORCH: obj = new CTorch(); break;
+	case OBJECT_TYPE_CANDLE: obj = new CCandle(); break;
 	case OBJECT_TYPE_WEAPON: 
 		obj = new CWeapon(); 
 		this->weapon = (CWeapon*)obj;
+		break;
+	case OBJECT_TYPE_AXE:
+		obj = new CAxe();
+		this->axe = (CAxe*)obj;
 		break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
 	case OBJECT_TYPE_BOARD: obj = new CBoard(); break;
@@ -430,6 +441,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_X:
 		Hit();
 		break;
+	case DIK_C:
+		ThrowSubWeapon();
+		break;
 	case DIK_A:
 		simon->Reset();
 		break;
@@ -457,5 +471,12 @@ void CPlayScenceKeyHandler::Hit() {
 	simon->SetState(SIMON_STATE_HIT);
 	weapon->UpdatePosionWithSimon(simon->GetPositionX(), simon->GetPositionY(), simon->nx);
 	weapon->SetState(WEAPON_STATE_ATTACK);
-	
+}
+
+void CPlayScenceKeyHandler::ThrowSubWeapon() {
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	CAxe* axe = ((CPlayScene*)scence)->axe;
+	simon->SetState(SIMON_STATE_HIT);
+	axe->UpdatePosionWithSimon(simon->GetPositionX(), simon->GetPositionY(), simon->nx);
+	axe->SetState(AXE_STATE_ATTACK);
 }

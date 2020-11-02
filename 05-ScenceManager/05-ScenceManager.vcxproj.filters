@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Subweapon">
+      <UniqueIdentifier>{6c2c6124-e399-4efe-8757-84c764ae4fb1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Brick.cpp">
@@ -66,6 +69,15 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Axe.cpp">
+      <Filter>Header Files\Subweapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Torch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Candle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -117,6 +129,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Weapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Axe.h">
+      <Filter>Header Files\Subweapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Torch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Candle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

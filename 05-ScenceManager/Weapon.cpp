@@ -16,8 +16,6 @@ CWeapon::CWeapon() {
 void CWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
-	//DebugOut(L"isHidden  %d\n", this->isHidden);
-	//DebugOut(L"action_time UPDATE %d\n", this->action_time);
 
 	if (!isHidden) {
 		if (GetTickCount() - action_time > WEAPON_ATTACK_TIME) {
