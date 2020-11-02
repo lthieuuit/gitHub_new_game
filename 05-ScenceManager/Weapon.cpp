@@ -134,8 +134,8 @@ void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
 				frame = 0;
 			}
 			else if (currenFrame == 1) {
-				x = _x ;
-				y = _y + 2;
+				x = _x + 30 ;
+				y = _y + 5;
 				frame = 1;
 			}
 			else if (currenFrame == 2) {
