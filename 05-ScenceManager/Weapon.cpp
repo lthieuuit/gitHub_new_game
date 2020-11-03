@@ -31,7 +31,7 @@ void CWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (GetTickCount() - action_time > WEAPON_ATTACK_TIME) {
 			isHidden = true;
 			this->action_time = 0;
-			
+			ResetBB();
 		}
 	}
 }
@@ -66,10 +66,8 @@ void CWeapon::GetBoundingBox(float& left, float& top, float& right, float& botto
 	left = x;
 	right = x + width;
 	top = y;
-	bottom = y + heigth;
+	bottom = y + height;
 }
-
-
 
 void CWeapon::SetState(int state)
 {

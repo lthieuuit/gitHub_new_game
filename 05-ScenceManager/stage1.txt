@@ -27,8 +27,6 @@
 #walking
 310	0	0	32	64	22
 311	32	0	64	64	22
-#die
-312	0	0	0	0	22
 #BlackLeopard
 #idle
 300	0	0	64	32	21
@@ -194,8 +192,6 @@
 # ====ZOMBIE==================
 #walking
 260	310	100	311	100
-#die
-261	312	100
 
 # ==== BLACK_LEOPARD==========
 #idle
@@ -317,7 +313,7 @@
 #
 [ANIMATION_SETS]
 #ZOMBIE
-410	260	261	
+410	260	
 #BLACK_LEOPARD
 400	250	251	252
 # Simon

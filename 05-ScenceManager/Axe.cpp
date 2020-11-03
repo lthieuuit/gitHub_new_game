@@ -30,17 +30,6 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 }
 
-bool CAxe::CheckColli(float left_a, float top_a, float right_a, float bottom_a)
-{
-	float l, t, r, b;
-	CAxe::GetBoundingBox(l, t, r, b);
-
-	if (CGameObject::AABBCheck(l, t, r, b, left_a, top_a, right_a, bottom_a))
-		return true;
-	else
-		return false;
-}
-
 void CAxe::Render()
 {
 	if (isHidden) return;
@@ -55,9 +44,9 @@ void CAxe::ResetAnimation(int ani)
 void CAxe::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
+	right = x + width;
 	top = y;
-	right = x + AXE_BBOX_WIDTH;
-	bottom = y + AXE_BBOX_HEIGHT;
+	bottom = y + height;
 }
 
 void CAxe::SetState(int state)
