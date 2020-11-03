@@ -10,6 +10,8 @@ void CTorch::Render()
 	if (isHidden) return;
 	animation_set->at(0)->Render(1, x, y);
 	RenderBoundingBox();
+	height = TORCH_BBOX_HEIGHT;
+	width = TORCH_BBOX_WIDTH;
 }
 
 void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -30,6 +32,7 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (CheckColli(left, top, right, bottom))
 			{
 				this->isHidden = true;
+				ResetBB();
 			}
 
 		}
@@ -51,6 +54,6 @@ void CTorch::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
 	l = x;
 	t = y;
-	r = x + TORCH_BBOX_WIDTH;
-	b = y + TORCH_BBOX_HEIGHT;
+	r = x + width;
+	b = y + height;
 }
