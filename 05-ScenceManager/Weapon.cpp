@@ -66,7 +66,7 @@ void CWeapon::GetBoundingBox(float& left, float& top, float& right, float& botto
 	left = x;
 	right = x + width;
 	top = y;
-	bottom = y + heigth;
+	bottom = y + height;
 }
 
 void CWeapon::SetState(int state)

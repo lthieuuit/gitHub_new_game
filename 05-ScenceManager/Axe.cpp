@@ -43,6 +43,10 @@ void CAxe::ResetAnimation(int ani)
 
 void CAxe::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
+	left = x;
+	right = x + width;
+	top = y;
+	bottom = y + height;
 }
 
 void CAxe::SetState(int state)
