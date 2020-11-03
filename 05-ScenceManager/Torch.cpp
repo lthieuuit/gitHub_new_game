@@ -1,14 +1,23 @@
 #include <algorithm>
 #include <assert.h>
-
+#include "Weapon.h"
 #include "Torch.h"
 #include "PlayScence.h"
 #include "Utils.h"
 
+
+
 void CTorch::Render()
 {
-	if (isHidden) return;
-	animation_set->at(0)->Render(1, x, y);
+	
+	if (isHidden)	
+	{
+	
+		return;
+	}
+
+
+	animation_set->at(1)->Render(1, x, y);
 	RenderBoundingBox();
 }
 
@@ -17,6 +26,7 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
+
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		LPGAMEOBJECT obj = coObjects->at(i);

@@ -121,7 +121,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			e->GetBoundingBox(left, top, right, bottom);
 			float newRight = right + 100;
 			if (this->CheckColli(left, top, newRight, bottom)) {
-				delete e;
+				//delete e;
 			}
 
 		}
