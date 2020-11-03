@@ -48,6 +48,9 @@ public:
 	float x; 
 	float y;
 
+	int height;
+	int width;
+
 	float dx;	// dx = vx*dt
 	float dy;	// dy = vy*dt
 
@@ -99,6 +102,7 @@ public:
 	float GetPositionX() { return this->x; }
 	float GetPositionY() { return this->y; }
 
+	void ResetBB();
 	~CGameObject();
 };
 
