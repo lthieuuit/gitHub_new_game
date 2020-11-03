@@ -1,5 +1,6 @@
 #include "Zombie.h"
-
+#include"Weapon.h"
+#include"Axe.h"
 void CZombie::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -11,7 +12,7 @@ void CZombie::GetBoundingBox(float& left, float& top, float& right, float& botto
 void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
-	DWORD now = GetTickCount();
+	DWORD now = GetTickCount64();
 	CGameObject::Update(dt, coObjects);
 	vy += ZOMBIE_GRAVITY * dt;
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -31,7 +32,39 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float min_tx, min_ty, nx = 0, ny = 0, rdx = 0, rdy = 0;
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+			LPGAMEOBJECT obj = coObjects->at(i);
+			if (dynamic_cast<CWeapon*>(obj))
+			{
+				CWeapon* e = dynamic_cast<CWeapon*>(obj);
 
+				float left, top, right, bottom;
+				e->GetBoundingBox(left, top, right, bottom);
+				
+				if (CheckColli(left, top, right, bottom))
+				{
+					this->isHidden = true;
+					//e->Set
+					
+				}
+
+			}
+			else if (dynamic_cast<CAxe*>(obj))
+			{
+				CAxe* e = dynamic_cast<CAxe*>(obj);
+
+				float left, top, right, bottom;
+				e->GetBoundingBox(left, top, right, bottom);
+
+				if (CheckColli(left, top, right, bottom))
+				{
+					this->isHidden = true;
+					//e->isHidden = true;
+				}
+
+			}
+		}
 		x += dx;
 		y += min_ty * dy + ny * 0.1f;
 
@@ -57,6 +90,10 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x = 290; vx = -vx;
 		nx = -1;
 	}*/
+	 //Calculate dx, dy 
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	
 }
 
 void CZombie::Render()
@@ -65,9 +102,14 @@ void CZombie::Render()
 	/*if (state == BLACK_LEOPARD_IDLE)
 		ani = BLACK_LEOPARD_ANI_IDLE;
 	else*/
+	if (isHidden)
+		return;
 	if (state == ZOMBIE_ANI_WALKING)
 		ani = ZOMBIE_ANI_WALKING;
-	else
+	else if (state == ZOMBIE_STATE_DIE)
+	{
+		return;
+	}
 		ani = ZOMBIE_ANI_WALKING;
 	animation_set->at(ani)->Render(nx, x, y);
 	RenderBoundingBox();
@@ -93,4 +135,14 @@ void CZombie::SetState(int state)
 		DebugOut(L"vx %f \n", vx);
 		break;
 	}
+}
+bool CZombie::CheckColli(float left_a, float top_a, float right_a, float bottom_a)
+{
+	float l, t, r, b;
+	CZombie::GetBoundingBox(l, t, r, b);
+
+	if (CGameObject::AABBCheck(l, t, r, b, left_a, top_a, right_a, bottom_a))
+		return true;
+	else
+		return false;
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Utils.h"
+#include"Weapon.h"
 
 #define BLACK_LEOPARD_ACTIVE		0    
 #define BLACK_LEOPARD_DESTROYED		1
@@ -24,11 +25,14 @@
 
 class CBlackLeopard : public CGameObject
 {
+public:
+	bool isHidden = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);
 	virtual void Render();
 
-public:
+
 	CBlackLeopard();
 	virtual void SetState(int state);
 };

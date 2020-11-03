@@ -69,6 +69,8 @@ void CWeapon::GetBoundingBox(float& left, float& top, float& right, float& botto
 	bottom = y + heigth;
 }
 
+
+
 void CWeapon::SetState(int state)
 {
 	CGameObject::SetState(state);

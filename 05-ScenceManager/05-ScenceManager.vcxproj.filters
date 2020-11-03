@@ -137,9 +137,6 @@
     <ClInclude Include="Weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Axe.h">
-      <Filter>Header Files\Subweapon</Filter>
-    </ClInclude>
     <ClInclude Include="Torch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -151,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="Zombie.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Axe.h">
+      <Filter>Header Files\Subweapon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

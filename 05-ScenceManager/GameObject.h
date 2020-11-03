@@ -95,7 +95,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
-
+	//virtual void ResetBoundingBox(float& left, float& top, float& right, float& bottom);
 	float GetPositionX() { return this->x; }
 	float GetPositionY() { return this->y; }
 
