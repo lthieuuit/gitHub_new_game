@@ -31,7 +31,7 @@ void CWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (GetTickCount() - action_time > WEAPON_ATTACK_TIME) {
 			isHidden = true;
 			this->action_time = 0;
-			
+			ResetBB();
 		}
 	}
 }

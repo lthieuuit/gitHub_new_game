@@ -156,13 +156,8 @@ void CItem::CheckSize()
 }
 void CItem::UpdatePosionWithTorch(float _x, float _y, int _nx) 
 {
-	//DebugOut(L"x update %f \n", _x);
-	//DebugOut(L"y update %f \n", _y);
-	//DebugOut(L"nx update %d \n", _nx);
 	nx = _nx;
-	int ani = GetAnimation();
-	int currenFrame = animation_set->at(ani)->GetCurrentFrame();
-	//DebugOut(L"frame %d \n", currenFrame);
-	
+	x = _x;
+	y = _y;
 }
 

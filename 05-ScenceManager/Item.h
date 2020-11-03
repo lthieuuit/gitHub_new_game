@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObject.h"
-
 #define HEIGHT_ID_ANI_0			32
 #define WIDTH_ID_ANI_0			32
 #define HEIGHT_ID_ANI_1			20
@@ -11,10 +10,12 @@
 #define WIDTH_ID_ANI_3			32
 #define HEIGHT_ID_ANI_4			26
 #define WIDTH_ID_ANI_4			32
+
 #define LARGE_HEART_GRAVITY		0.00005f
 #define MONEY_BAG_GRAVITY		0.00005f
 #define HOLY_WATER_GRAVITY		0.00005f
 #define MEAT_GRAVITY			0.00005f
+
 
 #define ITEM_DISAPPEAR_TIME		5000
 #define ITEM_ANI_ROI			0
