@@ -373,7 +373,10 @@
 11	70	0	400
 
 #ZOMBIE
-10	20	110	410	
+10	20	110	410
+
+#ITEM
+12	100	200	5	
 
 # BRICK 
 # --- platform (hint: I created the list using Excel!) ----

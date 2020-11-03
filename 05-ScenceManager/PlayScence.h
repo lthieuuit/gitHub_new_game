@@ -13,10 +13,12 @@
 #include "Weapon.h"
 #include "Axe.h"
 #include "Board.h"
+#include "Item.h"
 
 class CPlayScene: public CScene
 {
 public: 
+	CItem* item;
 	CSimon *player;					// A play scene has to have player, right? 
 	CMap* map;
 	CWeapon* weapon;
