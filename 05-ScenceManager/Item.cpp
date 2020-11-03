@@ -41,6 +41,7 @@ int CItem::GetAnimation()
 }
 void CItem::Render()
 {
+	if (isHidden) return;
 	int ani = GetAnimation();
 	animation_set->at(ani)->Render(nx, x, y, 255);
 	RenderBoundingBox();
@@ -60,7 +61,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	vy += LARGE_HEART_GRAVITY * dt;
+	vy += ITEM_GRAVITY * dt;
 	CheckSize();
 
 	coEvents.clear();

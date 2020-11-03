@@ -11,11 +11,7 @@
 #define HEIGHT_ID_ANI_4			26
 #define WIDTH_ID_ANI_4			32
 
-#define LARGE_HEART_GRAVITY		0.00005f
-#define MONEY_BAG_GRAVITY		0.00005f
-#define HOLY_WATER_GRAVITY		0.00005f
-#define MEAT_GRAVITY			0.00005f
-
+#define ITEM_GRAVITY		0.00005f
 
 #define ITEM_DISAPPEAR_TIME		5000
 #define ITEM_ANI_ROI			0
@@ -26,6 +22,7 @@
 
 class CItem : public CGameObject
 {
+	bool isHidden = true;
 	int id;
 	int height = 0;
 	int width = 0;
