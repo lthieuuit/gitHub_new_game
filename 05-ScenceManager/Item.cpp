@@ -5,6 +5,7 @@ CItem::CItem()
 	id = 0;
 	disappearStart = 0;
 	nx = 1;
+	isHidden = false;
 }
 
 CItem::~CItem()

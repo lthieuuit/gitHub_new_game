@@ -22,7 +22,8 @@
 
 class CItem : public CGameObject
 {
-	bool isHidden = true;
+public:
+	bool isHidden;
 	int id;
 	int height = 0;
 	int width = 0;

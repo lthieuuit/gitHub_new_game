@@ -41,7 +41,7 @@
 #define SIMON_ANI_WHIP_LV4			15
 
 #define SIMON_HEGHT					60
-#define SIMON_WIDTH					34
+#define SIMON_WIDTH					30
 
 #define SIMON_HEGHT_RESET_SIT		17
 

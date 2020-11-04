@@ -15,6 +15,8 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	SetState(SIMON_STATE_IDLE);
 	nx = 1;
 	isGrounded = true;
+	height = SIMON_HEGHT;
+	width = SIMON_WIDTH;
 	this->start_x = x;
 	this->start_y = y;
 	this->x = x;
@@ -111,16 +113,18 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		LPGAMEOBJECT obj = coObjects->at(i);
-		if (dynamic_cast<CWeapon*>(obj))
+		if (dynamic_cast<CItem*>(obj))
 		{
-			CWeapon* e = dynamic_cast<CWeapon*>(obj);
+			CItem* e = dynamic_cast<CItem*>(obj);
+
 			float left, top, right, bottom;
 			e->GetBoundingBox(left, top, right, bottom);
-			float newRight = right + 100;
-			if (this->CheckColli(left, top, newRight, bottom)) {
-				//delete e;
+			DebugOut(L"haha");
+			if (CheckColli(left, top, right, bottom))
+			{
+				e->isHidden = true;
+				e->ResetBB();
 			}
-
 		}
 	}
 
@@ -210,9 +214,9 @@ void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom
 {
 	
 	left = x ;
-	right = left + SIMON_WIDTH;
+	right = left + width;
 	top = y;
-	bottom = y + SIMON_HEGHT;
+	bottom = y + height;
 	
 }
 
