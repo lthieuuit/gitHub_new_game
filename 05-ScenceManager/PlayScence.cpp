@@ -15,7 +15,6 @@
 #include "Item.h"
 using namespace std;
 
-
 #define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 448
 /*

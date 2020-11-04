@@ -33,14 +33,13 @@ void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			float left, top, right, bottom;
 			e->GetBoundingBox(left, top, right, bottom);
-
-			if (CheckColli(left, top, right, bottom))
-			{
-				
-				this->isHidden = true;
-				ResetBB();
+			if (e->frame == 2) {							// xu ly roi danh truoc moi dc va cham
+				if (CheckColli(left, top, right, bottom))
+				{
+					this->isHidden = true;
+					ResetBB();
+				}
 			}
-
 		}
 	}
 }

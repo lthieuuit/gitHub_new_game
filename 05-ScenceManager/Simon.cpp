@@ -66,6 +66,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isSit) {
 		if (vx != 0) {
 			isSit = false;
+			height += SIMON_HEGHT_RESET_SIT;
+			y -= SIMON_HEGHT_RESET_SIT;
 		}
 	}
 
@@ -99,35 +101,92 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//
 		// Collision logic with other objects
 		//
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+			LPGAMEOBJECT obj = coObjects->at(i);
+			/*if (dynamic_cast<CItem*>(obj))
+			{
+				
+
+				float left, top, right, bottom;
+				e->GetBoundingBox(left, top, right, bottom);
+				if (CheckColli(left, top, right, bottom))
+				{
+					
+				}
+			}*/
+			/*	if (dynamic_cast<CBrick*>(obj))
+				{
+
+				}*/
+
+			/*if (dynamic_cast<CTorch*>(obj))
+			{
+				DebugOut(L"haha00");
+				if (nx != 0) {
+					x += dx * SIMON_WALKING_SPEED;
+				}
+				if (ny != 0) {
+					y += dy;
+				}*/
+
+				/*CTorch* e = dynamic_cast<CTorch*>(obj);
+				float left, top, right, bottom;
+				e->GetBoundingBox(left, top, right, bottom);
+				if (CheckColli(left, top, right, bottom))
+				{
+					float l_simon, t_simon, r_simon, b_simon;
+					CSimon::GetBoundingBox(l_simon, t_simon, r_simon, b_simon);
+					if (b_simon <= top && b_simon < bottom) {
+						y += dt* SIMON_JUMP_SPEED_Y;
+					}
+				}*/
+
+			//}
+		}
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CPortal*>(e->obj))
+			if (dynamic_cast<CItem*>(e->obj)) {
+				CItem* item = dynamic_cast<CItem*>(e->obj);
+				item->isHidden = true;
+				item->ResetBB();
+			}
+			else if (dynamic_cast<CTorch*>(e->obj))
+			{
+				if (e->nx != 0) {
+					x += dx;
+				}
+				if (e->ny != 0) {
+					y += dy;
+				}
+				
+			}
+			else if (dynamic_cast<CCandle*>(e->obj))
+			{
+				vy = SIMON_JUMP_SPEED_Y;
+				if (e->nx != 0) {
+					x += dx;
+				}
+				if (e->ny != 0) {
+					DebugOut(L"vy %f \n ", vy);
+					DebugOut(L"dy %f \n ", dy);
+					DebugOut(L"yy %f \n ", y);
+					if (e-> ny > 0) vy = -vy;
+					y += dy;
+					DebugOut(L"yy %f \n ", y);
+					DebugOut(L"dy %f \n ", dy);
+				}
+			}
+			else if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
 		}
+
+		
 	}
-
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		LPGAMEOBJECT obj = coObjects->at(i);
-		if (dynamic_cast<CItem*>(obj))
-		{
-			CItem* e = dynamic_cast<CItem*>(obj);
-
-			float left, top, right, bottom;
-			e->GetBoundingBox(left, top, right, bottom);
-			DebugOut(L"haha");
-			if (CheckColli(left, top, right, bottom))
-			{
-				e->isHidden = true;
-				e->ResetBB();
-			}
-		}
-	}
-
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
@@ -212,7 +271,6 @@ void CSimon::SetState(int state)
 
 void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	
 	left = x ;
 	right = left + width;
 	top = y;
@@ -225,6 +283,7 @@ void CSimon::SitDown()
 	if (!isSit) {
 		vx = 0;
 		isSit = true;
+		height -= SIMON_HEGHT_RESET_SIT;
 	}
 }
 

@@ -14,6 +14,8 @@
 #include "Axe.h"
 #include "Board.h"
 #include "Item.h"
+#include "Torch.h"
+#include "Candle.h"
 
 class CPlayScene: public CScene
 {

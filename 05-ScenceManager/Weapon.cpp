@@ -170,8 +170,5 @@ void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
 			}
 		}
 	}
-	DebugOut(L"x %f \n", x);
-	DebugOut(L"y %f \n", y);
-	DebugOut(L"nx %d \n", nx);
 }
 

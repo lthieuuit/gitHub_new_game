@@ -1,14 +1,13 @@
 #pragma once
 #include "GameObject.h"
 
-#define SIMON_WALKING_SPEED		0.1f 
-//0.1f
-#define SIMON_JUMP_SPEED_Y		0.5f
-#define SIMON_JUMP_DEFLECT_SPEED 0.2f
-#define SIMON_GRAVITY			0.002f
-#define SIMON_DIE_DEFLECT_SPEED	 0.5f
+#define SIMON_WALKING_SPEED				0.1f
+#define SIMON_JUMP_SPEED_Y				0.5f
+#define SIMON_JUMP_DEFLECT_SPEED		0.2f
+#define SIMON_GRAVITY					0.002f
+#define SIMON_DIE_DEFLECT_SPEED			0.002f
 
-#define SIMON_ATTACK_TIME 500
+#define SIMON_ATTACK_TIME				500
 
 #define SIMON_STATE_IDLE				0
 #define SIMON_STATE_WALKING				1001
@@ -40,10 +39,10 @@
 #define SIMON_ANI_WHIP_LV2			14
 #define SIMON_ANI_WHIP_LV4			15
 
-#define SIMON_HEGHT					60
-#define SIMON_WIDTH					30
+#define SIMON_HEGHT					61
+#define SIMON_WIDTH					33
 
-#define SIMON_HEGHT_RESET_SIT		17
+#define SIMON_HEGHT_RESET_SIT		4
 
 #define SIMON_WIDTH_RESET_ATTACK	7
 
@@ -61,8 +60,8 @@ class CSimon : public CGameObject
 public:
 	int level;
 	int untouchable;
-	int height = 65;
-	int width = 34;
+	int height = 60;
+	int width = 32;
 	bool isSit;
 	bool isAttack;
 	bool isGrounded;
@@ -70,6 +69,8 @@ public:
 
 	int start_x;
 	int start_y;
+
+	//CWeapon* weapon;
 
 	DWORD untouchable_start;
 	DWORD action_time;
@@ -86,6 +87,9 @@ public:
 	void SetNX(int _nx) { nx = _nx; }
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
+	//void SetWeapon(CWeapon* _weapon) {
+	//	weapon = _weapon;
+	//}
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	bool GetAttack() { return this->isAttack; };
 
