@@ -1,5 +1,6 @@
 #pragma once
 #include "Game.h"
+#include "Utils.h"
 #include "Textures.h"
 #include "Scence.h"
 #include "GameObject.h"
@@ -14,8 +15,6 @@
 #include "Axe.h"
 #include "Board.h"
 #include "Item.h"
-#include "Torch.h"
-#include "Candle.h"
 
 class CPlayScene: public CScene
 {
@@ -44,8 +43,6 @@ public:
 	virtual void Unload();
 
 	bool CheckInCam(LPGAMEOBJECT a);
-
-	//friend class CPlayScenceKeyHandler;
 };
 
 class CPlayScenceKeyHandler : public CScenceKeyHandler

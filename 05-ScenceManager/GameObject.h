@@ -63,6 +63,7 @@ public:
 
 	bool isHidden;
 
+	DWORD action_time;
 	DWORD dt; 
 
 	LPANIMATION_SET animation_set;

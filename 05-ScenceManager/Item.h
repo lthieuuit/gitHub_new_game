@@ -1,17 +1,8 @@
 #pragma once
 #include "GameObject.h"
-#define HEIGHT_ID_ANI_0			32
-#define WIDTH_ID_ANI_0			32
-#define HEIGHT_ID_ANI_1			20
-#define WIDTH_ID_ANI_1			24
-#define HEIGHT_ID_ANI_2			30
-#define WIDTH_ID_ANI_2			30
-#define HEIGHT_ID_ANI_3			28
-#define WIDTH_ID_ANI_3			32
-#define HEIGHT_ID_ANI_4			26
-#define WIDTH_ID_ANI_4			32
 
 #define ITEM_GRAVITY		0.00005f
+#define ITEM_TIME_FIRE					1000
 
 #define ITEM_DISAPPEAR_TIME		5000
 #define ITEM_ANI_ROI			0
@@ -19,23 +10,46 @@
 #define ITEM_ANI_MONEY_BAG		2
 #define ITEM_ANI_HOLY_WATER		3
 #define ITEM_ANI_MEAT			4
+// item phu
+#define ITEM_ANI_TORCH			18
+#define ITEM_ANI_CANDLE			19
+#define ITEM_ANI_FIRE			20
+
+
+#define ITEM_HEIGHT_ID_ANI_TORCH		64
+#define ITEM_WIDTH_ID_ANI_TORCH			32
+#define ITEM_HEIGHT_ID_ANI_CANDLE		15
+#define ITEM_WIDTH_ID_ANI_CANDLE		15
+
+#define ITEM_HEIGHT_ID_ANI_0			32
+#define ITEM_WIDTH_ID_ANI_0				32
+#define ITEM_HEIGHT_ID_ANI_1			20
+#define ITEM_WIDTH_ID_ANI_1				24
+#define ITEM_HEIGHT_ID_ANI_2			30
+#define ITEM_WIDTH_ID_ANI_2				30
+#define ITEM_HEIGHT_ID_ANI_3			28
+#define ITEM_WIDTH_ID_ANI_3				32
+#define ITEM_HEIGHT_ID_ANI_4			26
+#define ITEM_WIDTH_ID_ANI_4				32
+
+
 
 class CItem : public CGameObject
 {
 public:
-	bool isHidden;
 	int id;
-	int height = 0;
-	int width = 0;
-	DWORD disappearStart;
+	int height = 1;
+	int width = 1;
+	bool isCandle = false;
+	bool isTorch = false;
+	bool isFire = false;
 public:
+
 	CItem();
 	~CItem();
 	void SetID(int _id) { id = _id; };
-	void StartDisappear();
 	int GetAnimation();
 	void CheckSize();
-	void UpdatePosionWithTorch(float _x, float _y, int _nx);
 	bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Render();

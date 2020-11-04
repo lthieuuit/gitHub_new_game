@@ -70,10 +70,7 @@ public:
 	int start_x;
 	int start_y;
 
-	//CWeapon* weapon;
-
 	DWORD untouchable_start;
-	DWORD action_time;
 public:
 	CSimon();
 	virtual void SitDown();

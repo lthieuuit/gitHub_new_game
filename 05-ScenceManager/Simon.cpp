@@ -104,88 +104,34 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
-			/*if (dynamic_cast<CItem*>(obj))
-			{
-				
-
-				float left, top, right, bottom;
-				e->GetBoundingBox(left, top, right, bottom);
-				if (CheckColli(left, top, right, bottom))
-				{
-					
-				}
-			}*/
-			/*	if (dynamic_cast<CBrick*>(obj))
-				{
-
-				}*/
-
-			/*if (dynamic_cast<CTorch*>(obj))
-			{
-				DebugOut(L"haha00");
-				if (nx != 0) {
-					x += dx * SIMON_WALKING_SPEED;
-				}
-				if (ny != 0) {
-					y += dy;
-				}*/
-
-				/*CTorch* e = dynamic_cast<CTorch*>(obj);
-				float left, top, right, bottom;
-				e->GetBoundingBox(left, top, right, bottom);
-				if (CheckColli(left, top, right, bottom))
-				{
-					float l_simon, t_simon, r_simon, b_simon;
-					CSimon::GetBoundingBox(l_simon, t_simon, r_simon, b_simon);
-					if (b_simon <= top && b_simon < bottom) {
-						y += dt* SIMON_JUMP_SPEED_Y;
-					}
-				}*/
-
-			//}
 		}
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CItem*>(e->obj)) {
 				CItem* item = dynamic_cast<CItem*>(e->obj);
-				item->isHidden = true;
-				item->ResetBB();
-			}
-			else if (dynamic_cast<CTorch*>(e->obj))
-			{
-				if (e->nx != 0) {
-					x += dx;
+				if (item->isCandle || item->isTorch || item->isFire) {
+					vy = SIMON_JUMP_SPEED_Y;
+					if (e->nx != 0) {
+						x += dx;
+					}
+					if (e->ny != 0) {
+						if (e->ny > 0) vy = -vy;
+						y += dy;
+					}
 				}
-				if (e->ny != 0) {
-					y += dy;
-				}
-				
-			}
-			else if (dynamic_cast<CCandle*>(e->obj))
-			{
-				vy = SIMON_JUMP_SPEED_Y;
-				if (e->nx != 0) {
-					x += dx;
-				}
-				if (e->ny != 0) {
-					DebugOut(L"vy %f \n ", vy);
-					DebugOut(L"dy %f \n ", dy);
-					DebugOut(L"yy %f \n ", y);
-					if (e-> ny > 0) vy = -vy;
-					y += dy;
-					DebugOut(L"yy %f \n ", y);
-					DebugOut(L"dy %f \n ", dy);
+				else {
+					item->isHidden = true;
+					item->ResetBB();
 				}
 			}
-			else if (dynamic_cast<CPortal*>(e->obj))
+			
+			if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
 		}
-
-		
 	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

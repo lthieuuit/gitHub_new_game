@@ -140,8 +140,8 @@ void CGameObject::RenderBoundingBox()
 
 void CGameObject::ResetBB()
 {
-	x = 0;
-	y = 0;
+	x = -1000;
+	y = -1000;
 	width = 0;
 	height = 0;
 }

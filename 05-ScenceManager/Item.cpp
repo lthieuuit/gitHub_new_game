@@ -1,9 +1,10 @@
 #include "Item.h"
+#include "PlayScence.h"
+#include "Portal.h"
+
 
 CItem::CItem()
 {
-	id = 0;
-	disappearStart = 0;
 	nx = 1;
 	isHidden = false;
 }
@@ -12,21 +13,19 @@ CItem::~CItem()
 {
 }
 
-void CItem::StartDisappear()
-{
-	disappearStart = GetTickCount();
-}
-
 int CItem::GetAnimation()
 {
 	int ani;
+	//isTorch = false;
+	//isCandle = false;
+	//isFire = false;
 	switch (this->id)
 	{
-	case 0: {
+	case ITEM_ANI_ROI: {
 		ani = ITEM_ANI_ROI;
 		break;
 	}
-	case 1: {
+	case ITEM_ANI_TIM: {
 		ani = ITEM_ANI_TIM;
 		break;
 	}
@@ -34,8 +33,26 @@ int CItem::GetAnimation()
 		ani = ITEM_ANI_HOLY_WATER;
 		break;
 	}
+	case ITEM_ANI_TORCH:
+		ani = ITEM_ANI_TORCH;
+		isTorch = true;
+		isCandle = false;
+		isFire = false;
+		break;
+	case ITEM_ANI_CANDLE:
+		ani = ITEM_ANI_CANDLE;
+		isTorch = false;
+		isCandle = true;
+		isFire = false;
+		break;
+	case ITEM_ANI_FIRE:
+		action_time = GetTickCount();
+		ani = ITEM_ANI_FIRE;
+		isTorch = false;
+		isCandle = false;
+		isFire = true;
+		break;
 	default:
-		ani = ITEM_ANI_MEAT;
 		break;
 	}
 	return ani;
@@ -63,57 +80,25 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	vy += ITEM_GRAVITY * dt;
-	CheckSize();
-
 	coEvents.clear();
 
-	CalcPotentialCollisions(coObjects, coEvents);
+	CheckSize();
 
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
+	if (isCandle || isTorch) vy = 0;
 
-
-		// TODO: This is a very ugly designed function!!!!
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		// how to push back simon if collides with a moving objects, what if simon is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
-
-		// block every object first!
-		//if (this->state == 10)
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
-
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
-
-		for (UINT i = 0; i < coObjects->size(); i++)
-		{
-			LPGAMEOBJECT obj = coObjects->at(i);
-			if (dynamic_cast<CItem*>(obj))
-			{
-				CItem* e = dynamic_cast<CItem*>(obj);
-
-				float left, top, right, bottom;
-				e->GetBoundingBox(left, top, right, bottom);
-
-				if (CheckColli(left, top, right, bottom))
-				{
-					//e->SetPosition();
-				}
-			}
+	if (isFire) {
+		if (GetTickCount() - action_time > ITEM_TIME_FIRE) {
+			isFire = false;
+			action_time = 0;
+			isHidden = false;
+			ResetBB();
 		}
 	}
+
+	
+
+	// No collision occured, proceed normally
+	
 }
 
 bool CItem::CheckColli(float left_a, float top_a, float right_a, float bottom_a) 
@@ -130,36 +115,38 @@ void CItem::CheckSize()
 {
 	switch (this->id)
 	{
-	case 0: {
-		this->height = HEIGHT_ID_ANI_0;
-		this->width = WIDTH_ID_ANI_0;
+	case ITEM_ANI_ROI: {
+		this->height = ITEM_HEIGHT_ID_ANI_0;
+		this->width = ITEM_WIDTH_ID_ANI_0;
 		break;
 	}
-	case 1: {
-		this->height = HEIGHT_ID_ANI_1;
-		this->width = WIDTH_ID_ANI_1;
+	case ITEM_ANI_TIM: {
+		this->height = ITEM_HEIGHT_ID_ANI_1;
+		this->width = ITEM_WIDTH_ID_ANI_1;
 		break;
 	}
-	case 2: {
-		height = HEIGHT_ID_ANI_2;
-		width = WIDTH_ID_ANI_2;
+	case ITEM_ANI_MONEY_BAG: {
+		height = ITEM_HEIGHT_ID_ANI_2;
+		width = ITEM_WIDTH_ID_ANI_2;
 		break;
 	}
 	case 3: {
-		height = HEIGHT_ID_ANI_3;
-		width = WIDTH_ID_ANI_3;
+		height = ITEM_HEIGHT_ID_ANI_3;
+		width = ITEM_WIDTH_ID_ANI_3;
 		break;
 	}
+	case ITEM_ANI_TORCH:
+		height = ITEM_HEIGHT_ID_ANI_TORCH;
+		width = ITEM_WIDTH_ID_ANI_TORCH;
+		break;
+	case ITEM_ANI_CANDLE:
+		height = ITEM_HEIGHT_ID_ANI_CANDLE;
+		width = ITEM_WIDTH_ID_ANI_CANDLE;
+		break;
 	default:
-		height = HEIGHT_ID_ANI_4;
-		width = WIDTH_ID_ANI_4;
+		height = 15;
+		width = 15;
 		break;
 	}
-}
-void CItem::UpdatePosionWithTorch(float _x, float _y, int _nx) 
-{
-	nx = _nx;
-	x = _x;
-	y = _y;
 }
 

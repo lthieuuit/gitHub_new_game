@@ -8,8 +8,6 @@
 #include "Portal.h"
 #include "Map.h"
 #include "Board.h"
-#include "Torch.h"
-#include "Candle.h"
 #include"BlackLeopard.h"
 #include"Zombie.h"
 #include "Item.h"
@@ -22,28 +20,31 @@ using namespace std;
 	See scene1.txt, scene2.txt for detail format specification
 */
 
-#define SCENE_SECTION_UNKNOWN -1
-#define SCENE_SECTION_TEXTURES 2
-#define SCENE_SECTION_SPRITES 3
-#define SCENE_SECTION_ANIMATIONS 4
-#define SCENE_SECTION_ANIMATION_SETS	5
-#define SCENE_SECTION_OBJECTS	6
-#define SCENE_SECTION_LOADMAP	7
+#define SCENE_SECTION_UNKNOWN				-1
+#define SCENE_SECTION_TEXTURES				2
+#define SCENE_SECTION_SPRITES				3
+#define SCENE_SECTION_ANIMATIONS			4
+#define SCENE_SECTION_ANIMATION_SETS		5
+#define SCENE_SECTION_OBJECTS				6
+#define SCENE_SECTION_LOADMAP				7
 
-#define OBJECT_TYPE_SIMON	0
-#define OBJECT_TYPE_BRICK	1
-#define OBJECT_TYPE_GOOMBA	2
-#define OBJECT_TYPE_KOOPAS	3
-#define OBJECT_TYPE_MAP	4
-#define OBJECT_TYPE_WEAPON	5
-#define OBJECT_TYPE_BOARD	8
-#define OBJECT_TYPE_PORTAL	50
-#define OBJECT_TYPE_AXE 9
-#define OBJECT_TYPE_TORCH 6
-#define OBJECT_TYPE_CANDLE 7
-#define OBJECT_TYPE_BLACK_LEOPARD 11
-#define OBJECT_TYPE_ZOMBIE 10
+#define OBJECT_TYPE_SIMON					0
+#define OBJECT_TYPE_BRICK					1
+#define OBJECT_TYPE_GOOMBA					2
+#define OBJECT_TYPE_KOOPAS					3
+#define OBJECT_TYPE_MAP						4
+#define OBJECT_TYPE_WEAPON					5
+#define OBJECT_TYPE_BOARD					8
+#define OBJECT_TYPE_AXE						9
+#define OBJECT_TYPE_ZOMBIE					10
+#define OBJECT_TYPE_BLACK_LEOPARD			11
 #define OBJECT_TYPE_ITEM 12
+
+#define OBJECT_TYPE_PORTAL					50
+
+#define ID_ITEM_TYPE_GOODS					0
+#define ID_ITEM_TYPE_TORCH					1
+#define ID_ITEM_TYPE_CANDLE					2
 
 #define MAX_SCENE_LINE 1024
 
@@ -233,6 +234,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	int ani_set_id = atoi(tokens[3].c_str());
 
+	int id=0;
+
 	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject *obj = NULL;
@@ -256,8 +259,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_TORCH: obj = new CTorch(); break;
-	case OBJECT_TYPE_CANDLE: obj = new CCandle(); break;
 	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_WEAPON: 
@@ -285,9 +286,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		}
 		break;
 	case OBJECT_TYPE_ITEM:
+		id = atof(tokens[4].c_str());
 		obj = new CItem();
 		item = (CItem*)obj;
-		item->SetID(0);
+		if (id == ID_ITEM_TYPE_TORCH) {
+			item->SetID(ITEM_ANI_TORCH);
+		}else if (id == ID_ITEM_TYPE_CANDLE) {
+			item->SetID(ITEM_ANI_CANDLE);
+		}
+		else {
+			item->SetID(0);
+		}
+
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
