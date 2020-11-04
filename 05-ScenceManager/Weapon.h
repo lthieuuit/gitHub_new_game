@@ -1,21 +1,5 @@
 #pragma once
 #include "GameObject.h"
-#include "Simon.h"
-
-#define WEAPON_STATE_HIDDEN 0
-#define WEAPON_STATE_ATTACK 1
-
-#define WEAPON_ATTACK_TIME 500
-#define WEAPON_X 10
-#define WEAPON_Y 15
-
-#define WEAPON_ANI_1	0
-#define WEAPON_ANI_2	1
-#define WEAPON_ANI_3	2
-
-#define WEAPON_WIDHT_ANI_1	44;
-#define WEAPON_HEGTH_ANI_1	23;
-
 
 class CWeapon : public CGameObject
 {

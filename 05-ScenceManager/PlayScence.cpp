@@ -13,41 +13,6 @@
 #include "Item.h"
 using namespace std;
 
-#define SCREEN_WIDTH 512
-#define SCREEN_HEIGHT 448
-/*
-	Load scene resources from scene file (textures, sprites, animations and objects)
-	See scene1.txt, scene2.txt for detail format specification
-*/
-
-#define SCENE_SECTION_UNKNOWN				-1
-#define SCENE_SECTION_TEXTURES				2
-#define SCENE_SECTION_SPRITES				3
-#define SCENE_SECTION_ANIMATIONS			4
-#define SCENE_SECTION_ANIMATION_SETS		5
-#define SCENE_SECTION_OBJECTS				6
-#define SCENE_SECTION_LOADMAP				7
-
-#define OBJECT_TYPE_SIMON					0
-#define OBJECT_TYPE_BRICK					1
-#define OBJECT_TYPE_GOOMBA					2
-#define OBJECT_TYPE_KOOPAS					3
-#define OBJECT_TYPE_MAP						4
-#define OBJECT_TYPE_WEAPON					5
-#define OBJECT_TYPE_BOARD					8
-#define OBJECT_TYPE_AXE						9
-#define OBJECT_TYPE_ZOMBIE					10
-#define OBJECT_TYPE_BLACK_LEOPARD			11
-#define OBJECT_TYPE_ITEM 12
-
-#define OBJECT_TYPE_PORTAL					50
-
-#define ID_ITEM_TYPE_GOODS					0
-#define ID_ITEM_TYPE_TORCH					1
-#define ID_ITEM_TYPE_CANDLE					2
-
-#define MAX_SCENE_LINE 1024
-
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :CScene(id, filePath)
 {
 	key_handler = new CPlayScenceKeyHandler(this);

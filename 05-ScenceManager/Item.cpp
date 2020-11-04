@@ -13,50 +13,7 @@ CItem::~CItem()
 {
 }
 
-int CItem::GetAnimation()
-{
-	int ani;
-	//isTorch = false;
-	//isCandle = false;
-	//isFire = false;
-	switch (this->id)
-	{
-	case ITEM_ANI_ROI: {
-		ani = ITEM_ANI_ROI;
-		break;
-	}
-	case ITEM_ANI_TIM: {
-		ani = ITEM_ANI_TIM;
-		break;
-	}
-	case 2: {
-		ani = ITEM_ANI_HOLY_WATER;
-		break;
-	}
-	case ITEM_ANI_TORCH:
-		ani = ITEM_ANI_TORCH;
-		isTorch = true;
-		isCandle = false;
-		isFire = false;
-		break;
-	case ITEM_ANI_CANDLE:
-		ani = ITEM_ANI_CANDLE;
-		isTorch = false;
-		isCandle = true;
-		isFire = false;
-		break;
-	case ITEM_ANI_FIRE:
-		action_time = GetTickCount();
-		ani = ITEM_ANI_FIRE;
-		isTorch = false;
-		isCandle = false;
-		isFire = true;
-		break;
-	default:
-		break;
-	}
-	return ani;
-}
+
 void CItem::Render()
 {
 	if (isHidden) return;
@@ -84,21 +41,53 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	CheckSize();
 
-	if (isCandle || isTorch) vy = 0;
+	if (isCandle || isTorch) dy = 0;
 
-	if (isFire) {
-		if (GetTickCount() - action_time > ITEM_TIME_FIRE) {
-			isFire = false;
-			action_time = 0;
-			isHidden = false;
-			ResetBB();
+	//if (isFire) {
+	//	if (GetTickCount() - action_time > ITEM_TIME_FIRE) {
+	//		isFire = false;
+	//		action_time = 0;
+	//		isHidden = false;
+	//		ResetBB();
+	//	}
+	//}
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+
+
+		// TODO: This is a very ugly designed function!!!!
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		// how to push back simon if collides with a moving objects, what if simon is pushed this way into another object?
+		//if (rdx != 0 && rdx!=dx)
+		//	x += nx*abs(rdx); 
+		//x += min_tx * dx + nx * 0.4f;
+		//y += min_ty * dy + ny * 0.4f;
+
+
+		//if (nx != 0) vx = 0;
+		//if (ny != 0) vy = 0;
+
+
+		//
+		// Collision logic with other objects
+		//
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+			LPGAMEOBJECT obj = coObjects->at(i);
 		}
-	}
-
-	
-
-	// No collision occured, proceed normally
-	
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			DebugOut(L"height %d \n", height);
+			DebugOut(L"width %d \n", width);
+			if (dynamic_cast<CWeapon*>(e->obj)) {
+				DebugOut(L"haha %d \n", height);
+			}
+		}
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 bool CItem::CheckColli(float left_a, float top_a, float right_a, float bottom_a) 
@@ -148,5 +137,47 @@ void CItem::CheckSize()
 		width = 15;
 		break;
 	}
+}
+
+int CItem::GetAnimation()
+{
+	int ani =0;
+	switch (this->id)
+	{
+	case ITEM_ANI_ROI: {
+		ani = ITEM_ANI_ROI;
+		break;
+	}
+	case ITEM_ANI_TIM: {
+		ani = ITEM_ANI_TIM;
+		break;
+	}
+	case 2: {
+		ani = ITEM_ANI_HOLY_WATER;
+		break;
+	}
+	case ITEM_ANI_TORCH:
+		ani = ITEM_ANI_TORCH;
+		isTorch = true;
+		isCandle = false;
+		isFire = false;
+		break;
+	case ITEM_ANI_CANDLE:
+		ani = ITEM_ANI_CANDLE;
+		isTorch = false;
+		isCandle = true;
+		isFire = false;
+		break;
+	case ITEM_ANI_FIRE:
+		action_time = GetTickCount();
+		ani = ITEM_ANI_FIRE;
+		isTorch = false;
+		isCandle = false;
+		isFire = true;
+		break;
+	default:
+		break;
+	}
+	return ani;
 }
 

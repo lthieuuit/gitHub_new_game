@@ -16,6 +16,8 @@
 #include "Board.h"
 #include "Item.h"
 
+#include "Define.h"
+
 class CPlayScene: public CScene
 {
 public: 
