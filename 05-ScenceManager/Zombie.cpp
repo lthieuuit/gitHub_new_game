@@ -1,6 +1,5 @@
+#include "PlayScence.h"
 #include "Zombie.h"
-#include "Axe.h"
-#include "Weapon.h"
 
 void CZombie::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -56,12 +55,13 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				float left, top, right, bottom;
 				e->GetBoundingBox(left, top, right, bottom);
 
-				if (CheckColli(left, top, right, bottom))
-				{
-					this->isHidden = true;
-					ResetBB();
+				if (e->frame == 2) {
+					if (CheckColli(left, top, right, bottom))
+					{
+						this->isHidden = true;
+						ResetBB();
+					}
 				}
-
 			}
 			if (dynamic_cast<CAxe*>(obj))
 			{
@@ -69,7 +69,6 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				float left, top, right, bottom;
 				e->GetBoundingBox(left, top, right, bottom);
-
 				if (CheckColli(left, top, right, bottom))
 				{
 					this->isHidden = true;
@@ -79,18 +78,6 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-	/*CGameObject::Update(dt, coObjects);
-	x += dx;
-	y += dy;
-	if (vx < 0 && x < 0) {
-		x = 0; vx = -vx;
-		nx = 1;
-	}
-
-	if (vx > 0 && x > 290) {
-		x = 290; vx = -vx;
-		nx = -1;
-	}*/
 }
 
 void CZombie::Render()

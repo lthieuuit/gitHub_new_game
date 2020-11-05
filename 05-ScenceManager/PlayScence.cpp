@@ -406,8 +406,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE *states)
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
-	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-
 	CGame* game = CGame::GetInstance();
 	CSimon* simon = ((CPlayScene*)scence)->player;
 	CPlayScene* playscene = ((CPlayScene*)scence);
