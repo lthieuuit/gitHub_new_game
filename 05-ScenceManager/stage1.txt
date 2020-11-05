@@ -14,6 +14,7 @@
 20	textures\Piece.png	255	0	255
 21	textures\BlackLeopard.png	255	0	255
 22	textures\Zombie.png	255	0	255
+23	textures\Fish.png	0	0	0
 
 30	TileMap\stage1.png	255	255	255
 
@@ -27,6 +28,16 @@
 #walking
 310	0	0	32	64	22
 311	32	0	64	64	22
+
+#Merman
+#idle
+400	63	0	96	64	23	
+#walking
+410	63	0	96	64	23
+411	31	0	62	63	23
+#shoot fireball
+412	0	0	33	63	23
+
 #BlackLeopard
 #idle
 300	0	0	64	32	21
@@ -37,6 +48,7 @@
 304	128	0	192	32	21
 #jump
 305	192	0	256	32	21
+
 # Simon
 # idle
 1	11	3	44	64	0
@@ -193,6 +205,14 @@
 #walking
 260	310	100	311	100
 
+# ====MERMAN==================
+#idle
+270	400	100
+#walking
+271	410	100	411	100
+#shoot fire
+272	412	100
+
 # ==== BLACK_LEOPARD==========
 #idle
 250	300	100
@@ -305,17 +325,18 @@
 
 
 
-
-
-
-#
 # id	ani1	ani2	ani3
 #
 [ANIMATION_SETS]
 #ZOMBIE
-410	260	
+410	260
+
+#MERMAN
+420	270	271	272
+	
 #BLACK_LEOPARD
 400	250	251	252
+
 # Simon
 1	0	1	2	3	4	5	6	7	8	9	10	11	12
 # GROUNDmap1
@@ -346,36 +367,8 @@
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba
+# type: 0 = Simon , 1 = Brick, 2= Goomba, 3= koopas, 4 = map , 5 = whip, 8 = board,  9= Axe, 10 = Zombie, 11= Black Leopard, 12 = Items, 13 = Merman
 
-# other
-4	5	0	4000
-8	0	0	8
-#whip
-5	-100	-100	4
-#Axe
-9	0	0	20
-#BLACK_LEOPARD
-11	70	0	400
-
-#ZOMBIE
-10	20	110	410
-
-#ITEM
-
-# GOODS				idTypeItem 
-12	-1000	-1000	5	0
-# TORCH 			
-12	320	318	5	1
-12	704	318	5	1
-12	1120	318	5	1
-12	1408	318	5	1
-# CANDLE
-12	320	270	5	2
-12	704	270	5	2
-12	1120	270	5	2
-12	1408	270	5	2
-	
 
 # BRICK 
 # --- platform (hint: I created the list using Excel!) ----
@@ -429,5 +422,41 @@
 1	1504	378	2
 1	1536	378	2
 
+# map
+4	5	0	4000
+
+#whip
+5	-100	-100	4
+
+#board
+8	0	0	8
+
+#Axe
+9	0	0	20
+
+#ZOMBIE
+10	20	110	410
+
+#BLACK_LEOPARD
+11	70	0	400
+
+#ITEM
+# GOODS				idTypeItem 
+12	-1000	-1000	5	0
+# TORCH 			
+12	320	318	5	1
+12	704	318	5	1
+12	1120	318	5	1
+12	1408	318	5	1
+# CANDLE
+12	320	270	5	2
+12	704	270	5	2
+12	1120	270	5	2
+12	1408	270	5	2
+
+#MERMAN
+13	450	300	420
+13	50	300	420
 # Simon
 0	20	100	1
+

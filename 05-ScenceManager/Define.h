@@ -65,7 +65,7 @@
 #define WEAPON_HEGTH_ANI_1									23;
 
 ///
-/// PLAY SENCE
+/// PLAY SCENE
 /// 
 
 #define SCREEN_WIDTH												512
@@ -90,6 +90,8 @@
 #define OBJECT_TYPE_ZOMBIE									10
 #define OBJECT_TYPE_BLACK_LEOPARD									11
 #define OBJECT_TYPE_ITEM									12
+#define OBJECT_TYPE_MERMAN											13
+
 #define OBJECT_TYPE_PORTAL											50
 
 #define ID_ITEM_TYPE_GOODS									0
@@ -120,6 +122,25 @@
 #define BLACK_LEOPARD_ANI_IDLE										1
 #define BLACK_LEOPARD_ANI_RUN_RIGHT							2
 #define BLACK_LEOPARD_ANI_JUMP										3
+
+///
+/// MERMAN
+/// 
+
+#define MERMAN_JUMP_SPEED_Y											0.9f
+#define MERMAN_WALKING_SPEED_X								0.13f
+#define MERMAN_GRAVITY												0.002f
+
+#define MERMAN_BBOX_WIDTH											32
+#define MERMAN_BBOX_HEIGHT									64
+
+#define MERMAN_JUMP											1
+#define MERMAN_WALKING												2
+#define MERMAN_SHOOT_FIREBALL								3
+
+#define MERMAN_ANI_IDLE												0
+#define MERMAN_ANI_WALKING									1
+#define MERMAN_ANI_SHOOT_FIREBALL									2
 
 ///
 /// ITEM

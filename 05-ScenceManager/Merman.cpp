@@ -1,7 +1,7 @@
+#include "Merman.h"
 #include "PlayScence.h"
-#include "Zombie.h"
 
-void CZombie::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void CMerman::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
@@ -9,12 +9,15 @@ void CZombie::GetBoundingBox(float& left, float& top, float& right, float& botto
 	bottom = y + height;
 }
 
-void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
 	DWORD now = GetTickCount();
 	CGameObject::Update(dt, coObjects);
-	vy += ZOMBIE_GRAVITY * dt;
+
+	//fall down
+	vy += MERMAN_GRAVITY * dt;
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -80,52 +83,54 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 }
 
-void CZombie::Render()
+void CMerman::Render()
 {
 	if (isHidden)
 		return;
-	int ani = ZOMBIE_ANI_WALKING;
-	/*if (state == BLACK_LEOPARD_IDLE)
-		ani = BLACK_LEOPARD_ANI_IDLE;
-	else*/
-	if (state == ZOMBIE_ANI_WALKING)
-		ani = ZOMBIE_ANI_WALKING;
-	else 
-		ani = ZOMBIE_ANI_WALKING;
+
+	int ani = MERMAN_ANI_WALKING;
+	if (!isGrounded)
+		ani = MERMAN_ANI_IDLE;
+	if (state == MERMAN_ANI_WALKING)
+		ani = MERMAN_ANI_WALKING;
+
+
 	animation_set->at(ani)->Render(nx, x, y);
 	RenderBoundingBox();
-	height = ZOMBIE_BBOX_HEIGHT;
-	width = ZOMBIE_BBOX_WIDTH;
+	height = MERMAN_BBOX_HEIGHT;
+	width = MERMAN_BBOX_WIDTH;
 }
 
-CZombie::CZombie()
-{
-	SetState(ZOMBIE_WALKING);
-
+CMerman::CMerman() {
+	vy = -MERMAN_JUMP_SPEED_Y;
+	nx = -1;
+	SetState(MERMAN_WALKING);
 }
 
-
-void CZombie::SetState(int state)
+void CMerman::SetState(int state)
 {
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	case ZOMBIE_WALKING:
+	case MERMAN_WALKING:
+		isGrounded = true;
 		DebugOut(L"nx %d \n", nx);
 		if (nx > 0)
-			vx = ZOMBIE_WALKING_SPEED_X;
+			vx = MERMAN_WALKING_SPEED_X;
 		else
-			vx = -ZOMBIE_WALKING_SPEED_X;
+			vx = -MERMAN_WALKING_SPEED_X;
 		DebugOut(L"vx %f \n", vx);
 		break;
 	}
 }
-bool CZombie::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
+
+bool CMerman::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
 	float l, t, r, b;
-	CZombie::GetBoundingBox(l, t, r, b);
+	CMerman::GetBoundingBox(l, t, r, b);
 
 	if (CGameObject::AABBCheck(l, t, r, b, left_a, top_a, right_a, bottom_a))
 		return true;
 	else
 		return false;
 }
+

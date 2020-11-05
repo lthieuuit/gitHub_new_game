@@ -132,6 +132,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Merman.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Merman.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Utils.h" />
