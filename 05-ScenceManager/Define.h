@@ -126,7 +126,7 @@
 /// 
 
 #define ITEM_GRAVITY										0.00005f
-#define ITEM_TIME_FIRE												1000
+#define ITEM_TIME_FIRE												500
 
 #define ITEM_DISAPPEAR_TIME									5000
 #define ITEM_ANI_ROI												0

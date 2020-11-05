@@ -38,37 +38,43 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	vy += ITEM_GRAVITY * dt;
 	coEvents.clear();
-
-	GetAnimation();
 	CheckSize();
 	
 
 	if (isCandle || isTorch) {
-		dy = 0;
-		DebugOut(L"height %d \n", height);
-		DebugOut(L"width %d \n", width);
-	} 
-
-
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
-
-
-		// TODO: This is a very ugly designed function!!!!
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		for (UINT i = 0; i < coObjects->size(); i++)
-		{
-			LPGAMEOBJECT obj = coObjects->at(i);
+		vy = 0;
+	}
+	if (isFire) {
+		vy = 0;
+		if (GetTickCount() - action_time > ITEM_TIME_FIRE) {
+			isFire = false;
+			action_time = 0;
+			isHidden = true;
 		}
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			
-			if (dynamic_cast<CWeapon*>(e->obj)) {
-				DebugOut(L"haha %d \n", height);
+	}
+
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT obj = coObjects->at(i);
+		if (isTorch || isCandle) {
+			if (dynamic_cast<CWeapon*>(obj))
+			{
+				CWeapon* e = dynamic_cast<CWeapon*>(obj);
+
+				float left, top, right, bottom;
+				e->GetBoundingBox(left, top, right, bottom);
+
+				if (e->frame == 2) {
+					if (CheckColli(left, top, right, bottom))
+					{
+						SetID(ITEM_ANI_FIRE);
+						isFire = true;
+						action_time = GetTickCount();
+					}
+				}
 			}
 		}
+	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
@@ -110,16 +116,28 @@ void CItem::CheckSize()
 	case ITEM_ANI_TORCH:
 		height = ITEM_HEIGHT_ID_ANI_TORCH;
 		width = ITEM_WIDTH_ID_ANI_TORCH;
+		isTorch = true;
+		isCandle = false;
+		isFire = false;
 		break;
 	case ITEM_ANI_CANDLE:
 		height = ITEM_HEIGHT_ID_ANI_CANDLE;
 		width = ITEM_WIDTH_ID_ANI_CANDLE;
+		isTorch = false;
+		isCandle = true;
+		isFire = false;
 		break;
 	case ITEM_ANI_FIRE:
 		height = 15;
 		width = 15;
+		isTorch = false;
+		isCandle = false;
+		isFire = true;
 		break;
 	default:
+		isTorch = false;
+		isCandle = false;
+		isFire = false;
 		break;
 	}
 }
@@ -143,22 +161,13 @@ int CItem::GetAnimation()
 	}
 	case ITEM_ANI_TORCH:
 		ani = ITEM_ANI_TORCH;
-		isTorch = true;
-		isCandle = false;
-		isFire = false;
+		
 		break;
 	case ITEM_ANI_CANDLE:
 		ani = ITEM_ANI_CANDLE;
-		isTorch = false;
-		isCandle = true;
-		isFire = false;
 		break;
 	case ITEM_ANI_FIRE:
-		action_time = GetTickCount();
 		ani = ITEM_ANI_FIRE;
-		isTorch = false;
-		isCandle = false;
-		isFire = true;
 		break;
 	default:
 		break;
