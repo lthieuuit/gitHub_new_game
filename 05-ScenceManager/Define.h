@@ -7,7 +7,7 @@
 #define SIMON_GRAVITY										0.002f
 #define SIMON_DIE_DEFLECT_SPEED										0.002f
 
-#define SIMON_ATTACK_TIME									500
+#define SIMON_ATTACK_TIME									400
 #define SIMON_UNTOUCHABLE_TIME										5000
 #define SIMON_RESET_JUMP_TIME								500
 
