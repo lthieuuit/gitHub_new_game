@@ -1,5 +1,5 @@
-[SCENEOBJECT]
-Scenes\scene1.txt
+#[SCENEOBJECT]
+#Scenes\scene1.txt
 [TILEMAP]
 2000	TileMap\Scene1.png	TileMap\Scene1_map.txt	10	48	4	17	32	32	1	0	0	1590	500	5	5	5
 

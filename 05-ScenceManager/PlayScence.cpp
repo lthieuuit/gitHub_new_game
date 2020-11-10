@@ -239,9 +239,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBoard();
 		board = (CBoard*)obj;
 		break;
-	case OBJECT_TYPE_MAP: 
-		obj = map; 
-		break;
 	case OBJECT_TYPE_PORTAL:
 		{	
 			float r = atof(tokens[4].c_str());
@@ -278,45 +275,102 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	objects.push_back(obj);
 }
 
+void CPlayScene::_ParseSection_INFOMAP(string line)
+{
+		vector<string> tokens = split(line);
+		if (tokens.size() < 10) return;
+		int IDmap = atoi(tokens[0].c_str());
+		wstring pathpic = ToWSTR(tokens[1]);
+		wstring pathtxt = ToWSTR(tokens[2]);
+		int num_row = atoi(tokens[3].c_str());
+		int num_col = atoi(tokens[4].c_str());
+		int num_row_read = atoi(tokens[5].c_str());
+		int num_col_read = atoi(tokens[6].c_str());
+		int tile_width = atoi(tokens[7].c_str());
+		int tile_height = atoi(tokens[8].c_str());
+		idstage = atoi(tokens[9].c_str());
+		int r = atoi(tokens[14].c_str());
+		int g = atoi(tokens[15].c_str());
+		int b = atoi(tokens[16].c_str());
+
+		tilemap->LoadMap(IDmap, pathpic.c_str(), pathtxt.c_str(), num_row, num_col, num_row_read, num_col_read, tile_width, tile_height, r, g, b);
+}
+
 void CPlayScene::Load()
 {
+	LoadMap();
+	LoadObject();
+}
+
+void CPlayScene::LoadMap() {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
+	tilemap = new TileMap();
 	ifstream f;
 	f.open(sceneFilePath);
 
 	// current resource section flag
-	int section = SCENE_SECTION_UNKNOWN;					
+	int section = SCENE_SECTION_UNKNOWN;
+
+	char str[MAX_SCENE_LINE];
+
+	while (f.getline(str, MAX_SCENE_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;
+		if (line == "[TILEMAP]") {
+			section = 1; continue;
+		}
+
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+
+
+		switch (section)
+		{
+		case 1: _ParseSection_INFOMAP(line); break;
+		}
+	}
+	f.close();
+}
+void CPlayScene::LoadObject() {
+	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
+	ifstream f;
+	f.open(L"Scenes\\Castlevania.txt");
+
+	// current resource section flag
+	int section = SCENE_SECTION_UNKNOWN;
 
 	char str[MAX_SCENE_LINE];
 	while (f.getline(str, MAX_SCENE_LINE))
 	{
 		string line(str);
-		//if(line[])
-		if (line[0] == '#') continue;// skip comment lines	
-		if (line == "[LOADMAP]") { section = SCENE_SECTION_LOADMAP; continue; }
+		if (line[0] == '#') continue;// skip comment lines
 		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
-		if (line == "[SPRITES]") { 
-			section = SCENE_SECTION_SPRITES; continue; }
-		if (line == "[ANIMATIONS]") { 
-			section = SCENE_SECTION_ANIMATIONS; continue; }
-		if (line == "[ANIMATION_SETS]") { 
-			section = SCENE_SECTION_ANIMATION_SETS; continue; }
-		if (line == "[OBJECTS]") { 
-			section = SCENE_SECTION_OBJECTS; continue; }
-		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }	
+		if (line == "[SPRITES]") {
+			section = SCENE_SECTION_SPRITES; continue;
+		}
+		if (line == "[ANIMATIONS]") {
+			section = SCENE_SECTION_ANIMATIONS; continue;
+		}
+		if (line == "[ANIMATION_SETS]") {
+			section = SCENE_SECTION_ANIMATION_SETS; continue;
+		}
+		if (line == "[OBJECTS]") {
+			section = SCENE_SECTION_OBJECTS; continue;
+		}
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
 		// data section
 		//
 		switch (section)
-		{ 
-			case SCENE_SECTION_LOADMAP: _ParseSection_LOADMAP(line); break;
-			case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
-			case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
-			case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
-			case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
-			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		{
+		case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
+		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
+		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
+		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
+		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		}
 	}
 
@@ -366,6 +420,7 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
+	tilemap->Draw();
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }

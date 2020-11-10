@@ -15,6 +15,7 @@
 #include "Axe.h"
 #include "Board.h"
 #include "Item.h"
+#include "TileMap.h"
 
 #include "Define.h"
 
@@ -27,22 +28,37 @@ public:
 	CWeapon* weapon;
 	CAxe* axe;
 	CBoard* board;
+	TileMap* tilemap;
+
+	int idstage;
+	int current_scene;
+
 	vector<LPGAMEOBJECT> objects;
+
+
+	vector<string> linkmap;
+
 	int isintro = 0;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
-	void _ParseSection_LOADMAP(string line);
+	void _ParseSection_INFOMAP(string line);
+
 	
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
+
+	void _ParseSection_LOADMAP(string line);
 
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+
+	void LoadMap();
+	void LoadObject();
 
 	bool CheckInCam(LPGAMEOBJECT a);
 };

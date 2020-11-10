@@ -1,0 +1,11 @@
+[SETTINGS]
+start	1
+#scene list
+
+[SCENES]
+1	Scenes\Map1full.txt
+2	Scenes\Map2full.txt
+3	Scenes\Map3full.txt
+4	Scenes\Map4full.txt
+5	Scenes\Map5full.txt
+6	Scenes\Map6full.txt
