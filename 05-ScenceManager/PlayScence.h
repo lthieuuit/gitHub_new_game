@@ -44,6 +44,8 @@ public:
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
+
+	void _ParseSection_SCENEOBJECT(string line);
 	void _ParseSection_INFOMAP(string line);
 
 	
