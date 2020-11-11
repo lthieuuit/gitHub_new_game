@@ -36,10 +36,10 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	vy += ITEM_GRAVITY * dt;
+	y += ITEM_GRAVITY * dt;
 	coEvents.clear();
 	CheckSize();
-	
+
 
 	if (isCandle || isTorch) {
 		vy = 0;
@@ -48,6 +48,14 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy = 0;
 		if (GetTickCount() - action_time > ITEM_TIME_FIRE) {
 			isFire = false;
+			action_time = 0;
+			isHidden = true;
+		}
+	}
+	else if (isBluemoneybag) {
+		y -= ITEM_GRAVITY;
+		if (GetTickCount() - action_time > ITEM_TIME_BLUEMONEY) {
+			isBluemoneybag = false;
 			action_time = 0;
 			isHidden = true;
 		}
@@ -68,6 +76,8 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (CheckColli(left, top, right, bottom))
 					{
 						SetID(ITEM_ANI_FIRE);
+						SetID(ITEM_ANI_BLUEMONEY);
+						isBluemoneybag = true;
 						isFire = true;
 						action_time = GetTickCount();
 					}
@@ -79,7 +89,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
-bool CItem::CheckColli(float left_a, float top_a, float right_a, float bottom_a) 
+bool CItem::CheckColli(float left_a, float top_a, float right_a, float bottom_a)
 {
 	float l, t, r, b;
 	CItem::GetBoundingBox(l, t, r, b);
@@ -103,11 +113,7 @@ void CItem::CheckSize()
 		this->width = ITEM_WIDTH_ID_ANI_1;
 		break;
 	}
-	case ITEM_ANI_MONEY_BAG: {
-		height = ITEM_HEIGHT_ID_ANI_2;
-		width = ITEM_WIDTH_ID_ANI_2;
-		break;
-	}
+
 	case 3: {
 		height = ITEM_HEIGHT_ID_ANI_3;
 		width = ITEM_WIDTH_ID_ANI_3;
@@ -119,6 +125,8 @@ void CItem::CheckSize()
 		isTorch = true;
 		isCandle = false;
 		isFire = false;
+
+
 		break;
 	case ITEM_ANI_CANDLE:
 		height = ITEM_HEIGHT_ID_ANI_CANDLE;
@@ -126,6 +134,7 @@ void CItem::CheckSize()
 		isTorch = false;
 		isCandle = true;
 		isFire = false;
+
 		break;
 	case ITEM_ANI_FIRE:
 		height = 15;
@@ -133,18 +142,29 @@ void CItem::CheckSize()
 		isTorch = false;
 		isCandle = false;
 		isFire = true;
+	case ITEM_ANI_BLUEMONEY: {
+		height = ITEM_HEIGHT_ID_ANI_BLUEMONEY;
+		width = ITEM_WIDTH_ID_ANI_BLUEMONEY;
+		isTorch = false;
+		isCandle = false;
+		isFire = false;
+		isBluemoneybag = true;
+
 		break;
+	}
+							 break;
 	default:
 		isTorch = false;
 		isCandle = false;
 		isFire = false;
+
 		break;
 	}
 }
 
 int CItem::GetAnimation()
 {
-	int ani =0;
+	int ani = 0;
 	switch (this->id)
 	{
 	case ITEM_ANI_ROI: {
@@ -161,13 +181,16 @@ int CItem::GetAnimation()
 	}
 	case ITEM_ANI_TORCH:
 		ani = ITEM_ANI_TORCH;
-		
+
 		break;
 	case ITEM_ANI_CANDLE:
 		ani = ITEM_ANI_CANDLE;
 		break;
 	case ITEM_ANI_FIRE:
 		ani = ITEM_ANI_FIRE;
+		break;
+	case ITEM_ANI_BLUEMONEY:
+		ani = ITEM_ANI_BLUEMONEY;
 		break;
 	default:
 		break;

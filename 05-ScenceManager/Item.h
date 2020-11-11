@@ -10,6 +10,7 @@ public:
 	bool isCandle = false;
 	bool isTorch = false;
 	bool isFire = false;
+	bool isBluemoneybag = false;
 public:
 
 	CItem();

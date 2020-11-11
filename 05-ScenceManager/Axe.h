@@ -8,7 +8,9 @@
 #define AXE_ATTACK_TIME 15500
 #define AXE_X 10
 #define AXE_Y 15
-#define AXE_GRAVITY		0.2212f
+#define AXE_GRAVITY		0.001f
+#define	AXE_SPEED_X		0.2212f
+#define	AXE_SPEED_Y		0.4f
 #define AXE_ANI	0
 
 class CAxe : public CGameObject
@@ -17,6 +19,7 @@ class CAxe : public CGameObject
 	int level;
 	int frame;
 	int vy = 1;
+
 	DWORD action_time;
 
 
@@ -24,7 +27,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void SetState(int state);
-
+	float speedy = AXE_SPEED_Y;
 	void ResetAnimation(int ani);
 	void SetFrame(int _frame) { frame = _frame; };
 	int GetFrame() { return frame; };

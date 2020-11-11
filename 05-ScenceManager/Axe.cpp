@@ -23,9 +23,13 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (GetTickCount() - action_time > AXE_ATTACK_TIME) {
 			isHidden = true;
 			this->action_time = 0;
+			ResetBB();
 		}
-		else {
-			GetPositionForSimon();
+		else
+		{
+			x += dx;
+			y -= speedy * dt;
+			speedy -= 0.019;
 		}
 	}
 }
@@ -57,7 +61,8 @@ void CAxe::SetState(int state)
 	{
 	case AXE_STATE_ATTACK:
 		ani = GetAnimation();
-		//ResetAnimation(ani);
+		if (nx > 0) vx = AXE_SPEED_X;
+		else vx = -AXE_SPEED_X;
 		frame = 3;
 		this->action_time = GetTickCount();
 		isHidden = false;
@@ -66,6 +71,7 @@ void CAxe::SetState(int state)
 		ani = GetAnimation();
 		//ResetAnimation(ani);
 		isHidden = true;
+		speedy = AXE_SPEED_Y;
 		break;
 	default:
 		break;
@@ -98,30 +104,10 @@ void CAxe::UpdatePosionWithSimon(int _x, int _y, int _nx) {
 	this->x = _x;
 	this->y = _y;
 	this->nx = _nx;
-	DebugOut(L"x update %d \n", x);
-	DebugOut(L"y update %d \n", y);
-	DebugOut(L"nx update %d \n", nx);
+
 }
 
 void CAxe::GetPositionForSimon() {
-	int ani = GetAnimation();
-	DebugOut(L"x %d \n", x);
-	DebugOut(L"y %d \n", y);
-	DebugOut(L"nx %d \n", nx);
-	int currenFrame = animation_set->at(ani)->GetCurrentFrame();
-	DebugOut(L"frame %d \n", currenFrame);
-	
-	if (nx > 0) {
 
-		x += AXE_GRAVITY * dt;
-		//y -= AXE_GRAVITY * dt;
-
-
-
-	}
-	else {
-		x -= AXE_GRAVITY * dt;
-		//y -= AXE_GRAVITY * dt;
-	}
 
 }
