@@ -90,7 +90,7 @@ void TileMap::Draw()
 	int firstcol = (int)CGame::GetInstance()->GetCamPosX() / tile_width;
 	int lastcol = firstcol + (SCREEN_WIDTH / tile_width);
 
-	DebugOut(L"hahaha ");
+	//DebugOut(L"hahaha ");
 	for (UINT i = 0; i < num_row; i++)
 	{
 		for (UINT j = firstcol; j <= lastcol; j++)

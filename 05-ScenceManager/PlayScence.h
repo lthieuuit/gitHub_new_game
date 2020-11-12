@@ -13,6 +13,9 @@
 
 #include "Weapon.h"
 #include "Axe.h"
+#include "Knife.h"
+#include "Holywater.h"
+
 #include "Board.h"
 #include "Item.h"
 #include "TileMap.h"
@@ -25,8 +28,12 @@ public:
 	CItem* item;
 	CSimon *player;					// A play scene has to have player, right? 
 	CMap* map;
+
 	CWeapon* weapon;
 	CAxe* axe;
+	CKnife* knife;
+	CHlw* hlw;
+
 	CBoard* board;
 	TileMap* tilemap;
 
@@ -72,11 +79,14 @@ public:
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode) {};
 
+	int axe_state = 0;
+
 	void Run(int _nx);
 	void Jump();
 	void Hit();
-	void ThrowSubWeapon();
-
+	void Throw_Axe();
+	void Throw_Knife();
+	void Throw_Holywater();
 	void SitDown();
 	CPlayScenceKeyHandler(CScene *s) :CScenceKeyHandler(s) {};
 };

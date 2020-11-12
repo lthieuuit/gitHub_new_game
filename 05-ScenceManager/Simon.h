@@ -21,6 +21,7 @@ public:
 	CSimon();
 	virtual void SitDown();
 	virtual void attack();
+	//virtual void ThrowAxe();
 	virtual void ResetAnimation();
 	virtual void Reset();
 	CSimon(float x, float y);

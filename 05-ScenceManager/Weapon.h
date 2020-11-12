@@ -13,6 +13,8 @@ public:
 
 
 public:
+	//int whip_isAtk = 1;
+
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);
 	virtual void Render();

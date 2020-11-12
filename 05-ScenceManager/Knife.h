@@ -1,21 +1,22 @@
 #pragma once
 #include "GameObject.h"
 #include "Simon.h"
+#include "Define.h"
 
-#define AXE_STATE_HIDDEN 0
-#define AXE_STATE_ATTACK 1
+#define KNIFE_STATE_HIDDEN 0
+#define KNIFE_STATE_ATTACK 1
 
-#define AXE_ATTACK_TIME 1400
-#define AXE_X 10
-#define AXE_Y 15
-#define AXE_GRAVITY		0.001f
-#define	AXE_SPEED_X		0.2212f
-#define	AXE_SPEED_Y		0.4f
-#define AXE_ANI	0
+#define KNIFE_ATTACK_TIME 1400
+#define KNIFE_X 10
+#define KNIFE_Y 15
+#define KNIFE_GRAVITY		0.001f
+#define	KNIFE_SPEED_X		0.2512f
+#define	KNIFE_SPEED_Y		0.4f
+#define KNIFE_ANI	0
 
-class CAxe : public CGameObject
+class CKnife : public CGameObject
 {
-	static CAxe* __instance;
+	static CKnife* __instance;
 	int level;
 	int frame;
 	int vy = 1;
@@ -27,15 +28,15 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void SetState(int state);
-	float speedy = AXE_SPEED_Y;
+	//float speedy = KNIFE_SPEED_Y;
 	void ResetAnimation(int ani);
 	void SetFrame(int _frame) { frame = _frame; };
 	int GetFrame() { return frame; };
 	void UpdatePosionWithSimon(int _x, int _y, int _nx);
-	static CAxe* GetInstance();
-	CAxe();
+	static CKnife* GetInstance();
+	CKnife();
 
-	int axe_isAtk = 1;
+	int knife_isAtk = 1;
 
 	void Attack(DWORD dt);
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <windows.h>
 
 #include "PlayScence.h"
 #include "Utils.h"
@@ -350,6 +351,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CAxe();
 		this->axe = (CAxe*)obj;
 		break;
+	case OBJECT_TYPE_KNIFE:
+		obj = new CKnife();
+		this->knife = (CKnife*)obj;
+		break;
+	case OBJECT_TYPE_HLW:
+		obj = new CHlw();
+		this->hlw = (CHlw*)obj;
+		break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
 	case OBJECT_TYPE_BOARD:
 		obj = new CBoard();
@@ -498,6 +507,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	CGame* game = CGame::GetInstance();
 	CSimon* simon = ((CPlayScene*)scence)->player;
+	CAxe* axe = ((CPlayScene*)scence)->axe;
+	CKnife* knife = ((CPlayScene*)scence)->knife;
+	CHlw* hlw = ((CPlayScene*)scence)->hlw;
 	CPlayScene* playscene = ((CPlayScene*)scence);
 	switch (KeyCode)
 	{
@@ -511,7 +523,22 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		Hit();
 		break;
 	case DIK_C:
-		ThrowSubWeapon();
+		if (axe->axe_isAtk == 0)
+		{
+			Throw_Axe();
+		}
+		break;
+	case DIK_V:
+		if (knife->knife_isAtk == 0)
+		{
+			Throw_Knife();
+		}
+		break;
+	case DIK_B:
+		if (hlw->hlw_isAtk == 0)
+		{
+			Throw_Holywater();
+		}
 		break;
 	case DIK_A:
 		simon->Reset();
@@ -546,11 +573,34 @@ void CPlayScenceKeyHandler::Hit() {
 	simon->SetState(SIMON_STATE_HIT);
 }
 
-void CPlayScenceKeyHandler::ThrowSubWeapon() {
+void CPlayScenceKeyHandler::Throw_Axe() 
+{
 	CSimon* simon = ((CPlayScene*)scence)->player;
 	CAxe* axe = ((CPlayScene*)scence)->axe;
 	simon->SetState(SIMON_STATE_HIT);
+
 	axe->UpdatePosionWithSimon(simon->GetPositionX(), simon->GetPositionY(), simon->nx);
 	axe->speedy = AXE_SPEED_Y;
 	axe->SetState(AXE_STATE_ATTACK);
+}
+void CPlayScenceKeyHandler::Throw_Knife()
+{
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	CKnife* knife = ((CPlayScene*)scence)->knife;
+	simon->SetState(SIMON_STATE_HIT);
+
+	knife->UpdatePosionWithSimon(simon->GetPositionX(), simon->GetPositionY(), simon->nx);
+	//knife->speedy = AXE_SPEED_Y;
+	knife->SetState(KNIFE_STATE_ATTACK);
+}
+
+void CPlayScenceKeyHandler::Throw_Holywater()
+{
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	CHlw* hlw = ((CPlayScene*)scence)->hlw;
+	simon->SetState(SIMON_STATE_HIT);
+
+	hlw->UpdatePosionWithSimon(simon->GetPositionX(), simon->GetPositionY(), simon->nx);
+	hlw->speedy = HLW_SPEED_Y;
+	hlw->SetState(HLW_STATE_ATTACK);
 }

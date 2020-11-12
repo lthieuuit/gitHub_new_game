@@ -2,20 +2,21 @@
 #include "GameObject.h"
 #include "Simon.h"
 
-#define AXE_STATE_HIDDEN 0
-#define AXE_STATE_ATTACK 1
+#define HLW_STATE_HIDDEN  0
+#define HLW_STATE_ATTACK  1
+#define HLW_STATE_COLLIDE 2
 
-#define AXE_ATTACK_TIME 1400
-#define AXE_X 10
-#define AXE_Y 15
-#define AXE_GRAVITY		0.001f
-#define	AXE_SPEED_X		0.2212f
-#define	AXE_SPEED_Y		0.4f
-#define AXE_ANI	0
-
-class CAxe : public CGameObject
+#define HLW_ATTACK_TIME 1400
+#define HLW_X 10
+#define HLW_Y 15
+#define HLW_GRAVITY		0.001f
+#define	HLW_SPEED_X		0.2212f
+#define	HLW_SPEED_Y		0.3f
+#define HLW_ANI_ATTACK	0
+#define HLW_ANI_COLLIDE	1
+class CHlw : public CGameObject
 {
-	static CAxe* __instance;
+	static CHlw* __instance;
 	int level;
 	int frame;
 	int vy = 1;
@@ -27,15 +28,15 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void SetState(int state);
-	float speedy = AXE_SPEED_Y;
+	float speedy = HLW_SPEED_Y;
 	void ResetAnimation(int ani);
 	void SetFrame(int _frame) { frame = _frame; };
 	int GetFrame() { return frame; };
 	void UpdatePosionWithSimon(int _x, int _y, int _nx);
-	static CAxe* GetInstance();
-	CAxe();
+	static CHlw* GetInstance();
+	CHlw();
 
-	int axe_isAtk = 1;
+	int hlw_isAtk = 1;
 
 	void Attack(DWORD dt);
 

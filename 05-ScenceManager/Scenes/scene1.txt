@@ -11,8 +11,10 @@
 8	0	0	8
 #whip
 5	-100	-100	4
-#Axe
+#Axe = 9, knife = 91, holywater = 92
 9	0	0	20
+91	0	0	6
+92	0	0	22
 #BLACK_LEOPARD
 11	70	0	400
 

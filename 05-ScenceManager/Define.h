@@ -87,6 +87,8 @@
 #define OBJECT_TYPE_WEAPON											5
 #define OBJECT_TYPE_BOARD									8
 #define OBJECT_TYPE_AXE												9
+#define OBJECT_TYPE_KNIFE									91
+#define OBJECT_TYPE_HLW												92
 #define OBJECT_TYPE_ZOMBIE									10
 #define OBJECT_TYPE_BLACK_LEOPARD									11
 #define OBJECT_TYPE_ITEM									12

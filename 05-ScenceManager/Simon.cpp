@@ -9,6 +9,8 @@
 #include "Goomba.h"
 #include "Portal.h"
 
+#include "Axe.h"
+
 CSimon::CSimon(float x, float y) : CGameObject()
 {
 	level = 1;
