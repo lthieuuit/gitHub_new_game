@@ -47,6 +47,7 @@ void CAxe::Render()
 	if (isHidden) return;
 	int ani = GetAnimation();
 	animation_set->at(ani)->Render(nx, x, y, 255);
+	RenderBoundingBox();
 }
 void CAxe::ResetAnimation(int ani)
 {

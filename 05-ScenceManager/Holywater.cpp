@@ -19,6 +19,8 @@ CHlw::CHlw() {
 	this->SetState(HLW_STATE_HIDDEN);
 	x = -100;
 	y = -100;
+	height = 100;
+	width = 100;
 	isHidden = false;
 	level = 1;
 }
@@ -113,6 +115,7 @@ void CHlw::Render()
 	if (isHidden) return;
 	int ani = GetAnimation();
 	animation_set->at(ani)->Render(nx, x, y, 255);
+	RenderBoundingBox();
 }
 void CHlw::ResetAnimation(int ani)
 {
